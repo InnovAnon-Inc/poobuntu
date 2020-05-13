@@ -33,15 +33,15 @@ RUN apt-fast full-upgrade -y
 COPY poobuntu-dpkg.list .
 RUN apt-fast install -y `cat poobuntu-dpkg.list`
 
-RUN cp -v   `which gzip`   `which gzip`-old
-RUN cp -v   `which gunzip` `which gunzip`-old
-RUN cp -v   `which bzip2`  `which bzip2`-old
-RUN cp -v   `which xz`     `which xz`-old
-RUN ln -fsv `which pigz`   `which gzip`
-RUN ln -fsv `which unpigz` `which gunzip`
-RUN ln -fsv `which pbzip2` `which bzip2`
+RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
+RUN ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
+RUN ! command -v bzip2  ||      cp -v   `which bzip2`  `which bzip2`-old
+RUN ! command -v xz     ||      cp -v   `which xz`     `which xz`-old
+RUN if command -v gzip   ; then ln -fsv `which pigz`   `which gzip`   ; else ln -sv `which pigz`   /usr/bin/gzip   ; fi
+RUN if command -v gunzip ; then ln -fsv `which unpigz` `which gunzip` ; else ln -sv `which unpigz` /usr/bin/gunzip ; fi
+RUN if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv `which bpzip2` /usr/bin/bzip2  ; fi
 # TODO bunzip2
-RUN ln -fsv `which pixz`   `which xz`
+RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
 # TODO unxz
 #RUN ln -fsv `which plzip`  `which lzip`
 
