@@ -12,11 +12,17 @@ LABEL org.label-schema.vcs-ref=$VCS_REF
 LABEL org.label-schema.vcs-type="Git"
 LABEL org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV TZ America/Chicago
+
+# Disable Upstart
+RUN dpkg-divert --local --rename --add /sbin/initctl
+RUN ln -sfv /bin/true /sbin/initctl \
+RUN ln -sfv /bin/false /usr/sbin/policy-rc.
 
 # Run the command inside your image filesystem.
 RUN apt update
-RUN apt install -y apt-utils
+RUN apt install -y dialog apt-utils
 RUN apt install -y software-properties-common
 RUN add-apt-repository ppa:apt-fast/stable
 RUN apt update
