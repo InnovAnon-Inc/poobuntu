@@ -1,5 +1,6 @@
 # Use the official image as a parent image.
-FROM ubuntu:latest
+ARG VERSION=latest
+FROM ubuntu:$VERSION
 
 LABEL version="1.0"
 LABEL maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>"
@@ -17,7 +18,7 @@ ENV TZ America/Chicago
 
 # Disable Upstart
 RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -sfv /bin/true /sbin/initctl \
+RUN ln -sfv /bin/true /sbin/initctl
 RUN ln -sfv /bin/false /usr/sbin/policy-rc.
 
 # Run the command inside your image filesystem.

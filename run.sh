@@ -1,5 +1,6 @@
 #! /bin/bash
 set -exu
+[ $# -eq 0 -o $# -eq 1 ]
 
 if ! command -v dockerd ; then
 	command -v wget ||
@@ -13,8 +14,14 @@ fi
 docker version ||
 dockerd &
 
+if [ -z ${1+x} ; then
+	CMD='docker build -t poobuntu .'
+else
+	CMD="docker build -t poobuntu-$1 --build-arg VERSION=$1 ."
+fi
+
 sudo             -- \
 nice -n -20      -- \
 sudo -u `whoami` -- \
-docker build -t poobuntu .
+$CMD
 
