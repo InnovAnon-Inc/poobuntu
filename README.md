@@ -4,7 +4,7 @@ Parallelization-hack-enabled Ubuntu
 # Usage
 `./run.sh`
 
-`./run.sh 18.06`
+`./run.sh 18.04`
 
 `./run.sh 16.04`
 
