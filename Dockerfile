@@ -39,7 +39,7 @@ RUN ! command -v bzip2  ||      cp -v   `which bzip2`  `which bzip2`-old
 RUN ! command -v xz     ||      cp -v   `which xz`     `which xz`-old
 RUN if command -v gzip   ; then ln -fsv `which pigz`   `which gzip`   ; else ln -sv `which pigz`   /usr/bin/gzip   ; fi
 RUN if command -v gunzip ; then ln -fsv `which unpigz` `which gunzip` ; else ln -sv `which unpigz` /usr/bin/gunzip ; fi
-RUN if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv `which bpzip2` /usr/bin/bzip2  ; fi
+RUN if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv `which pbzip2` /usr/bin/bzip2  ; fi
 # TODO bunzip2
 RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
 # TODO unxz
