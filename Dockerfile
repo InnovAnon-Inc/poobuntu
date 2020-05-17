@@ -1,6 +1,7 @@
 # Use the official image as a parent image.
 ARG VERSION=latest
 FROM ubuntu:$VERSION
+MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
 LABEL version="1.0"
 LABEL maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>"
@@ -46,6 +47,7 @@ RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln 
 #RUN ln -fsv `which plzip`  `which lzip`
 
 COPY makeflags.sh /etc/profile.d
+COPY 02proxy      /etc/apt/apt.conf.d
 
 COPY poobuntu-clean.sh .
 
