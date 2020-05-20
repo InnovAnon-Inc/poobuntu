@@ -15,3 +15,7 @@ RUN ./poobuntu-clean.sh
 
 RUN rm -v poobuntu-clean.sh
 
+# News
+
+should now be available on DockerHub
+
