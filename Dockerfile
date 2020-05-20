@@ -1,6 +1,6 @@
 # Use the official image as a parent image.
-ARG VERSION=latest
-FROM ubuntu:$VERSION
+ARG DOCKER_TAG=latest
+FROM ubuntu:$DOCKER_TAG
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
 LABEL version="1.0"
