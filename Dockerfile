@@ -24,15 +24,15 @@ RUN ln -sfv /bin/false /usr/sbin/policy-rc.
 
 # Run the command inside your image filesystem.
 RUN apt update
-RUN apt install -y dialog apt-utils
-RUN apt install -y software-properties-common
+RUN apt install -qy dialog apt-utils
+RUN apt install -qy software-properties-common
 RUN add-apt-repository ppa:apt-fast/stable
 RUN apt update
-RUN apt install -y apt-fast
-RUN apt-fast full-upgrade -y
+RUN apt install -qy apt-fast
+RUN apt-fast full-upgrade -qy
 # Copy the file from your host to your current location.
 COPY poobuntu-dpkg.list .
-RUN apt-fast install -y `cat poobuntu-dpkg.list`
+RUN apt-fast install -qy `cat poobuntu-dpkg.list`
 
 RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
 RUN ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
@@ -47,7 +47,7 @@ RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln 
 #RUN ln -fsv `which plzip`  `which lzip`
 
 COPY makeflags.sh /etc/profile.d
-COPY 02proxy      /etc/apt/apt.conf.d
+COPY 02proxy 02innovanon /etc/apt/apt.conf.d
 
 COPY poobuntu-clean.sh .
 
