@@ -17,8 +17,8 @@ LABEL org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ America/Chicago
 
-COPY makeflags.sh         /etc/profile.d
-COPY 02minimal 02compress /etc/apt/apt.conf.d
+COPY makeflags.sh         /etc/profile.d/
+COPY 02minimal 02compress /etc/apt/apt.conf.d/
 
 # Disable Upstart
 RUN dpkg-divert --local --rename --add /sbin/initctl
