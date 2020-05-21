@@ -32,7 +32,7 @@ RUN dpkg --force-architecture --force-depends -i netselect_0.3.ds1-28+b1_arm64.d
 RUN rm -v netselect_0.3.ds1-28+b1_arm64.deb
 RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
   | awk 'BEGIN{printf "_APTMGR=apt\nDOWNLOADBEFORE=true\nMIRRORS=( '\''"}{printf "%s,", $1}END{printf "http://lmaddox.chickenkiller.com:3142'\'' )"}' \
-  > /etc/apt-fast.conf
+  > /tmp/apt-fast.conf
 RUN dpkg -r netselect
 
 # Run the command inside your image filesystem.
@@ -41,6 +41,7 @@ RUN apt install software-properties-common
 RUN add-apt-repository ppa:apt-fast/stable
 RUN apt update
 RUN apt install apt-fast
+RUN mv -v /tmp/apt-fast.conf /etc/apt-fast.conf
 RUN apt-fast full-upgrade
 # Copy the file from your host to your current location.
 COPY poobuntu-dpkg.list .
