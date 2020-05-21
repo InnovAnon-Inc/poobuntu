@@ -1,6 +1,7 @@
-APT::Install-Recommends "true";
-APT::Install-Suggests "true";
-quiet "true";
-APT::Get::Assume-Yes "true";
-APT::Get::Purge "true";
+APT::Install-Recommends   "false";
+APT::Install-Suggests     "false";
+quiet                     "true";
+APT::Get::Assume-Yes      "true";
+APT::Get::Purge           "true";
 APT::Get::AutomaticRemove "true";
+
