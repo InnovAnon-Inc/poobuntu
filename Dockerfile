@@ -40,6 +40,7 @@ RUN apt install software-properties-common
 RUN add-apt-repository ppa:apt-fast/stable
 RUN apt update
 RUN apt install apt-fast
+RUN apt purge netselect
 RUN apt-fast full-upgrade
 # Copy the file from your host to your current location.
 COPY poobuntu-dpkg.list .

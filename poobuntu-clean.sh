@@ -7,9 +7,9 @@ if command -v bzip2-old  ; then mv -v `which bzip2`{-old,}  ; else rm -v `which 
 if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `xz`           ; fi
 
 apt-fast purge `cat poobuntu-dpkg.list`
-apt-fast purge apt-fast
+apt-fast purge apt-fast dialog apt-utils wget
 add-apt-repository -r ppa:apt-fast/stable
-apt purge software-properties-common dialog apt-utils
+apt purge software-properties-common
 apt clean
 rm -rf /var/lib/apt/lists/*
 rm -v poobuntu-dpkg.list /etc/profile.d/makeflags.sh /etc/apt/apt.conf.d/02innovanon /etc/apt-fast.conf
