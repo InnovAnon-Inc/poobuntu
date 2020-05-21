@@ -17,7 +17,11 @@ LABEL org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ America/Chicago
 
-COPY makeflags.sh         /etc/profile.d/
+#COPY makeflags.sh         /etc/profile.d/
+#RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /etc/bash.bashrc`"    > /etc/bash.bashrc
+#RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /root/.bashrc`"       > /root/.bashrc
+#RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /root/.bash_profile`" > /root/.bash_profile
+ENV MAKEFLAGS=-j$(nproc)
 COPY 02minimal 02compress /etc/apt/apt.conf.d/
 
 # Disable Upstart
