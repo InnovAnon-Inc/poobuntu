@@ -27,12 +27,13 @@ RUN ln -sfv /bin/false /usr/sbin/policy-rc.
 
 RUN apt update
 RUN apt install wget
-RUN wget http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_arm64.deb
+RUN wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_arm64.deb
 RUN dpkg -i netselect_0.3.ds1-28+b1_arm64.deb
-RUN rm -f netselect_0.3.ds1-28+b1_arm64.deb
-RUN netselect -s 20 -t 40 `wget -qO - mirrors.ubuntu.com/mirrors.txt`                                    \
+RUN rm -v netselect_0.3.ds1-28+b1_arm64.deb
+RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
   | awk 'BEGIN{printf "_APTMGR=apt\nDOWNLOADBEFORE=true\nMIRRORS=( '\''"}{printf "%s,", $1}END{printf "http://lmaddox.chickenkiller.com:3142'\'' )"}' \
   > /etc/apt-fast.conf
+RUN apt purge netselect
 
 # Run the command inside your image filesystem.
 RUN apt install dialog apt-utils
@@ -40,7 +41,6 @@ RUN apt install software-properties-common
 RUN add-apt-repository ppa:apt-fast/stable
 RUN apt update
 RUN apt install apt-fast
-RUN apt purge netselect
 RUN apt-fast full-upgrade
 # Copy the file from your host to your current location.
 COPY poobuntu-dpkg.list .
