@@ -1,0 +1,8 @@
+APT::Compressor::zstd::CompressArg::  "-9";
+APT::Compressor::lz4::CompressArg::   "-9";
+APT::Compressor::gzip::CompressArg::  "-9n";
+APT::Compressor::xz::CompressArg::    "-9e";
+APT::Compressor::bzip2::CompressArg:: "-9";
+APT::Compressor::lzma::CompressArg::  "-9";
+Acquire::CompressionTypes::Order { "xz"; "lz4"; "lzma"; "bz2"; };
+

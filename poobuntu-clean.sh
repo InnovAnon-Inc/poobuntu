@@ -12,5 +12,7 @@ add-apt-repository -r ppa:apt-fast/stable
 apt purge software-properties-common
 apt clean
 rm -rf /var/lib/apt/lists/*
-rm -v poobuntu-clean.sh poobuntu-dpkg.list /etc/profile.d/makeflags.sh /etc/apt/apt.conf.d/02innovanon /etc/apt-fast.conf
+rm -v poobuntu-clean.sh             poobuntu-dpkg.list \
+      /etc/profile.d/makeflags.sh   /etc/apt-fast.conf \
+      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 

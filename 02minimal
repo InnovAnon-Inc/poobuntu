@@ -4,4 +4,5 @@ quiet                     "true";
 APT::Get::Assume-Yes      "true";
 APT::Get::Purge           "true";
 APT::Get::AutomaticRemove "true";
+APT::AutoRemove           "true";
 
