@@ -1,7 +1,7 @@
 BEGIN {
 	print "_APTMGR=apt";
 	print "DOWNLOADBEFORE=true"
-	print "MIRRORS=( '"
+	printf "%s", "MIRRORS=( '"
 }
 
 { printf "%s,", $2 }
