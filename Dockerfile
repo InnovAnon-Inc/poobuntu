@@ -27,12 +27,13 @@ RUN ln -sfv /bin/false /usr/sbin/policy-rc.
 
 RUN apt update
 RUN apt install wget
-RUN wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_arm64.deb
-RUN dpkg --force-architecture --force-depends -i netselect_0.3.ds1-28+b1_arm64.deb
-RUN rm -v netselect_0.3.ds1-28+b1_arm64.deb
+# TODO list directory and grab latest
+RUN wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
+RUN dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
+RUN rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
 RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
-  | awk 'BEGIN{printf "_APTMGR=apt\nDOWNLOADBEFORE=true\nMIRRORS=( '\''"}{printf "%s,", $1}END{printf "http://lmaddox.chickenkiller.com:3142'\'' )"}' \
-  > /tmp/apt-fast.conf
+  | awk 'BEGIN{printf "_APTMGR=apt\nDOWNLOADBEFORE=true\nMIRRORS=( '\''"}{printf "%s,", $2}END{printf "http://lmaddox.chickenkiller.com:3142'\'' )"}' \
+  | tee /tmp/apt-fast.conf
 RUN dpkg -r netselect
 
 # Run the command inside your image filesystem.
