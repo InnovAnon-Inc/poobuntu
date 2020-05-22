@@ -52,7 +52,7 @@ RUN mv -v /tmp/apt-fast.conf /etc/apt-fast.conf
 RUN apt-fast full-upgrade
 # Copy the file from your host to your current location.
 COPY poobuntu-dpkg.list .
-RUN apt-fast install `grep -vo ^[^#] poobuntu-dpkg.list`
+RUN apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list`
 
 RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
 RUN ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
