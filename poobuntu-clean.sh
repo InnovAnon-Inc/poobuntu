@@ -17,6 +17,5 @@ rm -rf /var/lib/apt/lists/*
 #      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 
 rm -v poobuntu-clean.sh             poobuntu-dpkg.list \
-      /etc/apt-fast.conf                               \
       /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 

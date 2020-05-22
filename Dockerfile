@@ -68,3 +68,5 @@ RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln 
 
 COPY poobuntu-clean.sh .
 
+RUN ./poobuntu-clean.sh
+
