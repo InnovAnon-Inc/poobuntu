@@ -26,47 +26,50 @@ ENV TZ America/Chicago
 ENV MAKEFLAGS=-j$(nproc)
 COPY 02minimal 02compress /etc/apt/apt.conf.d/
 
-# Disable Upstart
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -sfv /bin/true  /sbin/initctl
-RUN ln -sfv /bin/false /usr/sbin/policy-rc.
+# TODO is /usr/sbin/policy-rc. supposed to be /usr/sbin/policy-rc.d
+# TODO list debian directory and grab latest version of netselect package
 
-RUN apt update
-RUN apt install wget
-# TODO list directory and grab latest
-RUN wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
-RUN dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
-RUN rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
+# Disable Upstart
+RUN dpkg-divert --local --rename --add /sbin/initctl \
+ && ln -sfv /bin/true  /sbin/initctl                 \
+ && ln -sfv /bin/false /usr/sbin/policy-rc.          \
+ \
+ && apt update       \
+ && apt install wget \
+ && wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
+ && dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
+ && rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
 COPY netselect.awk .
 RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
-  | awk -f netselect.awk \
-  | tee /tmp/apt-fast.conf
-RUN rm -v netselect.awk
-RUN dpkg -r netselect
-
-# Run the command inside your image filesystem.
-RUN apt install dialog apt-utils
-RUN apt install software-properties-common
-RUN add-apt-repository ppa:apt-fast/stable
-RUN apt update
-RUN apt install apt-fast
-RUN mv -v /tmp/apt-fast.conf /etc/apt-fast.conf
-RUN apt-fast full-upgrade
+  | awk -f netselect.awk   \
+  | tee /tmp/apt-fast.conf \
+ && rm -v netselect.awk    \
+ && dpkg -r netselect      \
+ \
+ && apt install dialog apt-utils                \
+ && apt install software-properties-common      \
+ && add-apt-repository ppa:apt-fast/stable      \
+ && apt update                                  \
+ && apt install apt-fast                        \
+ && mv -v /tmp/apt-fast.conf /etc/apt-fast.conf \
+ && apt-fast full-upgrade
 # Copy the file from your host to your current location.
-COPY poobuntu-dpkg.list .
-RUN apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list`
+COPY poobuntu-dpkg.list redirect.sh ./
+RUN apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
+ && ./redirect.sh \
+ && rm -v redirect.sh
 
-RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
-RUN ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
-RUN ! command -v bzip2  ||      cp -v   `which bzip2`  `which bzip2`-old
-RUN ! command -v xz     ||      cp -v   `which xz`     `which xz`-old
-RUN if command -v gzip   ; then ln -fsv `which pigz`   `which gzip`   ; else ln -sv `which pigz`   /usr/bin/gzip   ; fi
-RUN if command -v gunzip ; then ln -fsv `which unpigz` `which gunzip` ; else ln -sv `which unpigz` /usr/bin/gunzip ; fi
-RUN if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv `which pbzip2` /usr/bin/bzip2  ; fi
-# TODO bunzip2
-RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
-# TODO unxz
-#RUN ln -fsv `which plzip`  `which lzip`
+#RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
+#RUN ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
+#RUN ! command -v bzip2  ||      cp -v   `which bzip2`  `which bzip2`-old
+#RUN ! command -v xz     ||      cp -v   `which xz`     `which xz`-old
+#RUN if command -v gzip   ; then ln -fsv `which pigz`   `which gzip`   ; else ln -sv `which pigz`   /usr/bin/gzip   ; fi
+#RUN if command -v gunzip ; then ln -fsv `which unpigz` `which gunzip` ; else ln -sv `which unpigz` /usr/bin/gunzip ; fi
+#RUN if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv `which pbzip2` /usr/bin/bzip2  ; fi
+## TODO bunzip2
+#RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
+## TODO unxz
+##RUN ln -fsv `which plzip`  `which lzip`
 
 COPY poobuntu-clean.sh .
 
