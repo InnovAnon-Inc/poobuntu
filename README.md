@@ -1,6 +1,9 @@
 # poobuntu
 Parallelization-hack-enabled Ubuntu
 
+> "Poobuntu! It's fast as sh*t"
+> -- <cite>nobody</cite>
+
 # Usage
 `./run.sh`
 

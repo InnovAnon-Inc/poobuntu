@@ -6,7 +6,7 @@ if command -v gunzip-old ; then mv -v `which gunzip`{-old,} ; else rm -v `which 
 if command -v bzip2-old  ; then mv -v `which bzip2`{-old,}  ; else rm -v `which bzip2`  ; fi
 if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `which xz`     ; fi
 
-apt-fast purge `cat poobuntu-dpkg.list`
+apt-fast purge `grep -v '^[\^#]' poobuntu-dpkg.list`
 apt-fast purge apt-fast dialog apt-utils wget
 add-apt-repository -r ppa:apt-fast/stable
 apt purge software-properties-common
