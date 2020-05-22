@@ -17,7 +17,8 @@ dockerd &
 if [ -z ${1+x} ] ; then
 	CMD='docker build -t poobuntu .'
 else
-	CMD="docker build -t poobuntu-$1 --build-arg DOCKER_TAG=$1 ."
+	#CMD="docker build -t poobuntu-$1 --build-arg DOCKER_TAG=$1 ."
+	CMD="docker build -t poobuntu-$1 --build-arg VERSION=$1 ."
 fi
 
 sudo             -- \
