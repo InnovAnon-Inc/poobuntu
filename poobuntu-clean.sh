@@ -17,7 +17,7 @@ rm -rf /var/lib/apt/lists/*
 #      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 
 # TODO test new changes
-localepurge
+[ ! `command -v localepurge` ] || localepurge
 
 # Remove info, man and docs
 rm -rf /usr/share/info/*

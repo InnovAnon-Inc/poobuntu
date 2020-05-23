@@ -17,11 +17,16 @@ LABEL version="1.0"                                                     \
       org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV DEBIAN_FRONTEND ${DEBIAN_FRONTEND} \
-    TZ=America/Chicago                 \
-    LANG='C.UTF-8'                     \
-    LC_ALL='C.UTF-8'                   \
-    MAKEFLAGS=-j$(nproc)
+#ENV DEBIAN_FRONTEND ${DEBIAN_FRONTEND} \
+#    TZ=America/Chicago                 \
+#    LANG='C.UTF-8'                     \
+#    LC_ALL='C.UTF-8'                   \
+#    MAKEFLAGS=-j$(nproc)
+ENV DEBIAN_FRONTEND ${DEBIAN_FRONTEND}
+ENV  TZ=America/Chicago
+ENV  LANG='C.UTF-8'
+ENV  LC_ALL='C.UTF-8'
+ENV  MAKEFLAGS=-j$(nproc)
 
 # Copy the file from your host to your current location.
 #COPY makeflags.sh         /etc/profile.d/
