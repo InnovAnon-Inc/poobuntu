@@ -5,26 +5,31 @@ ARG VERSION=latest
 FROM ubuntu:$VERSION
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
-LABEL version="1.0"
-LABEL maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>"
-LABEL about="Ubuntu enhanced with parallelization hacks"
-LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.license="PDL (Public Domain License)"
-LABEL org.label-schema.name="Parallelized Ubuntu"
-LABEL org.label-schema.url="InnovAnon-Inc.github.io/poobuntu"
-LABEL org.label-schema.vcs-ref=$VCS_REF
-LABEL org.label-schema.vcs-type="Git"
-LABEL org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
+LABEL version="1.0"                                                     \
+      maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>" \
+      about="Ubuntu enhanced with parallelization hacks"                \
+      org.label-schema.build-date=$BUILD_DATE                           \
+      org.label-schema.license="PDL (Public Domain License)"            \
+      org.label-schema.name="Parallelized Ubuntu"                       \
+      org.label-schema.url="InnovAnon-Inc.github.io/poobuntu"           \
+      org.label-schema.vcs-ref=$VCS_REF                                 \
+      org.label-schema.vcs-type="Git"                                   \
+      org.label-schema.vcs-url="https://github.com/InnovAnon-Inc/poobuntu"
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV TZ America/Chicago
+ARG DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND ${DEBIAN_FRONTEND} \
+    TZ=America/Chicago                 \
+    LANG='C.UTF-8'                     \
+    LC_ALL='C.UTF-8'                   \
+    MAKEFLAGS=-j$(nproc)
 
+# Copy the file from your host to your current location.
 #COPY makeflags.sh         /etc/profile.d/
 #RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /etc/bash.bashrc`"    > /etc/bash.bashrc
 #RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /root/.bashrc`"       > /root/.bashrc
 #RUN /bin/echo -e "`cat /etc/profile.d/makeflags.sh`\n\n`cat /root/.bash_profile`" > /root/.bash_profile
-ENV MAKEFLAGS=-j$(nproc)
 COPY 02minimal 02compress /etc/apt/apt.conf.d/
+COPY netselect.awk poobuntu-dpkg.list redirect.sh poobuntu-clean.sh ./
 
 # TODO is /usr/sbin/policy-rc. supposed to be /usr/sbin/policy-rc.d
 # TODO list debian directory and grab latest version of netselect package
@@ -37,10 +42,9 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && apt update       \
  && apt install wget \
  && wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
- && dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
- && rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb
-COPY netselect.awk .
-RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
+ && dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb  \
+ && rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb    \
+ && netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
   | awk -f netselect.awk   \
   | tee /tmp/apt-fast.conf \
  && rm -v netselect.awk    \
@@ -52,10 +56,8 @@ RUN netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
  && apt update                                  \
  && apt install apt-fast                        \
  && mv -v /tmp/apt-fast.conf /etc/apt-fast.conf \
- && apt-fast full-upgrade
-# Copy the file from your host to your current location.
-COPY poobuntu-dpkg.list redirect.sh ./
-RUN apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
+ && apt-fast full-upgrade                       \
+ && apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
  && ./redirect.sh \
  && rm -v redirect.sh
 
@@ -71,7 +73,6 @@ RUN apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
 ## TODO unxz
 ##RUN ln -fsv `which plzip`  `which lzip`
 
-COPY poobuntu-clean.sh .
 
 #RUN ./poobuntu-clean.sh
 

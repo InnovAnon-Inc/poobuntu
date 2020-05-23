@@ -16,6 +16,14 @@ rm -rf /var/lib/apt/lists/*
 #      /etc/profile.d/makeflags.sh   /etc/apt-fast.conf \
 #      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 
+# TODO test new changes
+localepurge
+
+# Remove info, man and docs
+rm -rf /usr/share/info/*
+rm -rf /usr/share/man/*
+rm -rf /usr/share/doc/*
+
 rm -v poobuntu-clean.sh             poobuntu-dpkg.list \
       /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
 
