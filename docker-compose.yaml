@@ -1,12 +1,12 @@
 version: '3'
 services:
-  poobuntu-latest:
+  poobuntu:
     #build: .
     build:
       context: .
       args:
         - VERSION=latest
-    hostname: poobuntu-latest
+    hostname: poobuntu
     #environment:
     #  - VERSION=latest
     image: innovanon/poobuntu:latest
