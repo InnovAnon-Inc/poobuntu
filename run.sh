@@ -14,8 +14,8 @@ sudo -u `whoami` -- \
 docker-compose up --build --force-recreate
 
 docker-compose push
-#git pull
+( #git pull
 git add .
 git commit -m "auto commit by $0"
-git push
+git push ) || :
 
