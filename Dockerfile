@@ -85,7 +85,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
     fi \
  \
  && apt install dialog apt-utils                           \
- && apt install software-properties-common gnupg gnupg-agent \
+ && apt install software-properties-common gnupg gnupg-agent dirmngr \
  && if [ -z "`apt-cache search apt-fast`" ] ; then                            \
       if [ "`lsb_release -i | awk '{print tolower($3)}'`" = ubuntu ] ; then \
         add-apt-repository ppa:apt-fast/stable                             ; \
