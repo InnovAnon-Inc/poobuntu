@@ -22,7 +22,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 #    LANG='C.UTF-8'                     \
 #    LC_ALL='C.UTF-8'                   \
 #    MAKEFLAGS=-j$(nproc)
-ENV DEBIAN_FRONTEND ${DEBIAN_FRONTEND}
+ENV  DEBIAN_FRONTEND=${DEBIAN_FRONTEND}
 ENV  TZ=America/Chicago
 ENV  LANG='C.UTF-8'
 ENV  LC_ALL='C.UTF-8'
