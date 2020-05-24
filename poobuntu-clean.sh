@@ -10,7 +10,7 @@ if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `which 
 [ ! `command -v localepurge` ] || localepurge
 
 apt-fast purge `grep -v '^[\^#]' poobuntu-dpkg.list`
-apt-fast purge apt-fast dialog wget
+apt-fast purge apt-fast dialog curl
 add-apt-repository -r ppa:apt-fast/stable
 apt purge software-properties-common apt-utils
 apt clean
@@ -24,6 +24,7 @@ rm -rf /usr/share/info/*
 rm -rf /usr/share/man/*
 rm -rf /usr/share/doc/*
 
-rm -v poobuntu-clean.sh             poobuntu-dpkg.list \
-      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress
+rm -v poobuntu-clean.sh             poobuntu-dpkg.list             \
+      /etc/apt/apt.conf.d/02minimal /etc/apt/apt.conf.d/02compress \
+      /usr/local/bin/pcurl
 

@@ -44,12 +44,16 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sfv /bin/true  /sbin/initctl                 \
  && ln -sfv /bin/false /usr/sbin/policy-rc.          \
  \
- && apt update       \
- && apt install wget \
- && wget -q http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
- && dpkg -i netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb  \
- && rm -v netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb    \
- && netselect -s 20 -t 40 `wget -qO- mirrors.ubuntu.com/mirrors.txt` \
+ && apt update               \
+ && apt install curl         \
+ && mkdir -pv /usr/local/bin \
+ && curl -o /usr/local/bin/pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/pcurl.sh \
+ && chmod -v +x /usr/local/bin/pcurl
+ && pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
+      netselect.deb          \
+ && dpkg -i netselect.deb    \
+ && rm -v netselect.deb      \
+ && netselect -s 20 -t 40 `pcurl mirrors.ubuntu.com/mirrors.txt` \
   | awk -f netselect.awk   \
   | tee /tmp/apt-fast.conf \
  && rm -v netselect.awk    \
