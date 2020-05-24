@@ -1,23 +1,21 @@
 #! /bin/bash
 set -exu
-[[ $# -eq 0 -o $# -eq 1 ]]
+[[ $# -eq 0 ]]
+cd "`dirname "$(readlink -f "$0")"`"
 
 command -v docker ||
 curl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/get-docker.sh | bash
 
-if [[ -z ${1+x} ]] ; then
-	CMD='docker build -t innovanon/poobuntu .'
-	PUSH='docker push innovanon/poobuntu:latest'
-else
-	#CMD="docker build -t innovanon/poobuntu-$1 --build-arg DOCKER_TAG=$1 ."
-	CMD="docker build -t innovanon/poobuntu-$1 --build-arg VERSION=$1 ."
-	PUSH="docker push innovanon/poobuntu-$1:latest"
-fi
+trap 'docker-compose down' 0
 
 sudo             -- \
 nice -n +20      -- \
 sudo -u `whoami` -- \
-$CMD
+docker-compose up --build --force-recreate
 
-$PUSH || :
+docker-compose push
+#git pull
+git add .
+git commit -m "auto commit by $0"
+git push
 

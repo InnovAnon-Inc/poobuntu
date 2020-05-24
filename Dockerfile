@@ -5,6 +5,11 @@ ARG VERSION=latest
 FROM ubuntu:$VERSION
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
+#RUN apt update
+#RUN apt install -qy lsb-release
+#RUN echo $VERSION
+#RUN lsb_release -r
+
 LABEL version="1.0"                                                     \
       maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>" \
       about="Ubuntu enhanced with parallelization hacks"                \
@@ -44,11 +49,11 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sfv /bin/true  /sbin/initctl                 \
  && ln -sfv /bin/false /usr/sbin/policy-rc.          \
  \
- && apt update               \
- && apt install curl         \
- && mkdir -pv /usr/local/bin \
+ && apt update                       \
+ && apt install curl ca-certificates \
+ && mkdir -pv /usr/local/bin         \
  && curl -o /usr/local/bin/pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/pcurl.sh \
- && chmod -v +x /usr/local/bin/pcurl
+ && chmod -v +x /usr/local/bin/pcurl \
  && pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
       netselect.deb          \
  && dpkg -i netselect.deb    \
@@ -67,7 +72,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && mv -v /tmp/apt-fast.conf /etc/apt-fast.conf \
  && apt-fast full-upgrade                       \
  && apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
- && ./redirect.sh \
+ && ./redirect.sh                               \
  && rm -v redirect.sh
 
 #RUN ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old

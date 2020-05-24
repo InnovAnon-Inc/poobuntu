@@ -1,0 +1,46 @@
+version: '3'
+services:
+  poobuntu-latest:
+    #build: .
+    build:
+      context: .
+      args:
+        - VERSION=latest
+    hostname: poobuntu-latest
+    #environment:
+    #  - VERSION=latest
+    image: innovanon/poobuntu:latest
+
+  poobuntu-20.04:
+    #build: .
+    build:
+      context: .
+      args:
+        - VERSION=20.04
+    hostname: poobuntu-20.04
+    #environment:
+    #  - VERSION=20.04
+    image: innovanon/poobuntu-20.04:latest
+
+  poobuntu-18.04:
+    #build: .
+    build:
+      context: .
+      args:
+        - VERSION=18.04
+    hostname: poobuntu-18.04
+    #environment:
+    #  - VERSION=18.04
+    image: innovanon/poobuntu-18.04:latest
+
+  poobuntu-16.04:
+    #build: .
+    build:
+      context: .
+      args:
+        - VERSION=16.04
+    hostname: poobuntu-16.04
+    #environment:
+    #  - VERSION=16.04
+    image: innovanon/poobuntu-16.04:latest
+
