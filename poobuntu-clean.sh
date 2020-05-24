@@ -7,7 +7,7 @@ if command -v bzip2-old  ; then mv -v `which bzip2`{-old,}  ; else rm -v `which 
 if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `which xz`     ; fi
 
 # TODO test new changes
-[ ! `command -v localepurge` ] || localepurge
+[[ ! `command -v localepurge` ]] || localepurge
 
 apt-fast purge `grep -v '^[\^#]' poobuntu-dpkg.list`
 apt-fast purge apt-fast dialog curl
