@@ -11,8 +11,11 @@ if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `which 
 
 apt-fast purge `grep -v '^[\^#]' poobuntu-dpkg.list`
 apt-fast purge apt-fast dialog curl ca-certificates
-add-apt-repository -r ppa:apt-fast/stable
-apt purge software-properties-common apt-utils
+
+rm -fv /etc/apt/sources.list.d/apt-fast*.list
+#add-apt-repository -r ppa:apt-fast/stable
+
+apt purge software-properties-common apt-utils gnupg gnupg-agent lsb-release
 apt clean
 rm -rf /var/lib/apt/lists/*
 #rm -v poobuntu-clean.sh             poobuntu-dpkg.list \

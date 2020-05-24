@@ -1,14 +1,20 @@
 # Use the official image as a parent image.
-#ARG DOCKER_TAG=latest
-#FROM ubuntu:$DOCKER_TAG
-ARG VERSION=latest
-FROM ubuntu:$VERSION
+#ARG OS=ubuntu
+#ARG VER=latest
+#ARG OS=${OS}
+#ARG VER=${VER}
+#ENV OS=${OS}
+#ENV VER=${VER}
+ARG OS
+ARG VER
+FROM $OS:$VER
+ARG OS
+ARG VER
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 
-#RUN apt update
-#RUN apt install -qy lsb-release
-#RUN echo $VERSION
-#RUN lsb_release -r
+#ENV  OS=${OS}
+#ENV ARG=${ARG}
+RUN echo now building ${OS}:${VER} 2>&1
 
 LABEL version="1.0"                                                     \
       maintainer="Innovations Anonymous <InnovAnon-Inc@protonmail.com>" \
@@ -50,26 +56,48 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sfv /bin/false /usr/sbin/policy-rc.          \
  \
  && apt update                       \
- && apt install curl ca-certificates \
+ && apt install curl ca-certificates lsb-release \
  && mkdir -pv /usr/local/bin         \
  && curl -o /usr/local/bin/pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/pcurl.sh \
  && chmod -v +x /usr/local/bin/pcurl \
- && pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
-      netselect.deb          \
- && dpkg -i netselect.deb    \
- && rm -v netselect.deb      \
- && netselect -s 20 -t 40 `pcurl mirrors.ubuntu.com/mirrors.txt` \
-  | awk -f netselect.awk   \
-  | tee /tmp/apt-fast.conf \
- && rm -v netselect.awk    \
- && dpkg -r netselect      \
+ && if [ -z "`apt-cache search netselect`" ] ; then \
+      pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
+        netselect.deb          \
+      && dpkg -i netselect.deb \
+      && rm -v netselect.deb ; \
+    else                       \
+      apt install netselect  ; \
+    fi \
  \
- && apt install dialog apt-utils                \
- && apt install software-properties-common      \
- && add-apt-repository ppa:apt-fast/stable      \
- && apt update                                  \
+ && if   [ "`lsb_release -i | awk '{print tolower($3)}'`" = ubuntu ] ; then            \
+      MIRRORS='pcurl mirrors.ubuntu.com/mirrors.txt'                                  ; \
+    elif [ "`lsb_release -i | awk '{print tolower($3)}'`" = debian ] ; then            \
+      MIRRORS='pcurl https://www.debian.org/mirror/list | grep -o '\''http://[^"]*'\' ; \
+    else exit 2 ; fi                 \
+ && netselect -s 20 -t 40 `$MIRRORS` \
+  | awk -f netselect.awk             \
+  | tee /tmp/apt-fast.conf           \
+ && rm -v netselect.awk              \
+ && if [ -z "`apt-cache search netselect`" ] ; then \
+      dpkg -r netselect    ; \
+    else                     \
+      apt purge netselect  ; \
+    fi \
+ \
+ && apt install dialog apt-utils                           \
+ && apt install software-properties-common gnupg gnupg-agent \
+ && if [ -z "`apt-cache search apt-fast`" ] ; then                            \
+      if [ "`lsb_release -i | awk '{print tolower($3)}'`" = ubuntu ] ; then \
+        add-apt-repository ppa:apt-fast/stable                             ; \
+      else                                                                   \
+        echo deb http://ppa.launchpad.net/apt-fast/stable/ubuntu bionic main > /etc/apt/sources.list.d/apt-fast.list \
+     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2166B8DE8BDC3367D1901C11EE2FF37CA8DA16B          ; \
+      fi                                          \
+   && apt update                                ; \
+    fi                                           \
  && apt install apt-fast                        \
  && mv -v /tmp/apt-fast.conf /etc/apt-fast.conf \
+ && apt-fast update                             \
  && apt-fast full-upgrade                       \
  && apt-fast install `grep -v '^[\^#]' poobuntu-dpkg.list` \
  && ./redirect.sh                               \
@@ -86,7 +114,6 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
 #RUN if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
 ## TODO unxz
 ##RUN ln -fsv `which plzip`  `which lzip`
-
 
 #RUN ./poobuntu-clean.sh
 

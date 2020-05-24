@@ -1,46 +1,135 @@
-version: '3'
+version: '3.3'
+#version: '2.2'
 services:
   poobuntu:
     #build: .
     build:
       context: .
       args:
-        - VERSION=latest
+        OS:  "ubuntu"
+        VER: "latest"
     hostname: poobuntu
-    #environment:
-    #  - VERSION=latest
-    image: innovanon/poobuntu:latest
+#    environment:
+#      - OS="ubuntu"
+#      - VER="latest"
+    image: "innovanon/poobuntu:latest"
+    container_name: "innovanon/poobuntu"
+#    extends:
+#      file:    ubuntu-latest.yaml
+#      service: ubuntu
+
+  poodeb:
+    build:
+      context: .
+      args:
+        OS:  "debian"
+        VER: "latest"
+    hostname: poodeb
+#    environment:
+#      - OS="debian"
+#      - VER="latest"
+    image: innovanon/poodeb:latest
+    container_name: innovanon/poodeb
+#    extends:
+#      file:    debian-latest.yaml
+#      service: debian
 
   poobuntu-20.04:
     #build: .
     build:
       context: .
       args:
-        - VERSION=20.04
+        OS:  "ubuntu"
+        VER: "20.04"
     hostname: poobuntu-20.04
-    #environment:
-    #  - VERSION=20.04
+#    environment:
+#      - OS="ubuntu"
+#      - VER="20.04"
     image: innovanon/poobuntu-20.04:latest
+    container_name: innovanon/poobuntu-20.04
+#    extends:
+#      file:    ubuntu-20.04.yaml
+#      service: ubuntu-20.04
+
+  poodeb-10:
+    build:
+      context: .
+      args:
+        OS:  "debian"
+        VER: "10"
+    hostname: poodeb-10
+#    environment:
+#      - OS="debian"
+#      - VER="10"
+    image: innovanon/poodeb-10:latest
+    container_name: innovanon/poodeb-10
+#    extends:
+#      file:    debian-10.yaml
+#      service: debian-10
 
   poobuntu-18.04:
     #build: .
     build:
       context: .
       args:
-        - VERSION=18.04
+        OS:  "ubuntu"
+        VER: "18.04"
     hostname: poobuntu-18.04
-    #environment:
-    #  - VERSION=18.04
+#    environment:
+#      - OS="ubuntu"
+#      - VER="18.04"
     image: innovanon/poobuntu-18.04:latest
+    container_name: innovanon/poobuntu-18.04
+#    extends:
+#      file:    ubuntu-18.04.yaml
+#      service: ubuntu-18.04
+
+  poodeb-9:
+    build:
+      context: .
+      args:
+        OS:  "debian"
+        VER: "9"
+    hostname: poodeb-9
+#    environment:
+#      - OS="debian"
+#      - VER="9"
+    image: innovanon/poodeb-9:latest
+    container_name: innovanon/poodeb-9
+#    extends:
+#      file:    debian-9.yaml
+#      service: debian-9
 
   poobuntu-16.04:
     #build: .
     build:
       context: .
       args:
-        - VERSION=16.04
+        OS:  "ubuntu"
+        VER: "16.04"
     hostname: poobuntu-16.04
-    #environment:
-    #  - VERSION=16.04
+#    environment:
+#      - OS="ubuntu"
+#      - VER="16.04"
     image: innovanon/poobuntu-16.04:latest
+    container_name: innovanon/poobuntu-16.04
+#    extends:
+#      file:    ubuntu-16.04.yaml
+#      service: ubuntu-16.04
+
+  poodeb-8:
+    build:
+      context: .
+      args:
+        OS:  "debian"
+        VER: "8"
+    hostname: poodeb-8
+#    environment:
+#      - OS="debian"
+#      - VER="8"
+    image: innovanon/poodeb-8:latest
+    container_name: innovanon/poodeb-8
+#    extends:
+#      file:    debian-8.yaml
+#      service: debian-8
 
