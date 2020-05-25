@@ -13,7 +13,7 @@ services:
 #      - OS="ubuntu"
 #      - VER="latest"
     image: "innovanon/poobuntu:latest"
-    container_name: "innovanon/poobuntu"
+    container_name: "poobuntu"
 #    extends:
 #      file:    ubuntu-latest.yaml
 #      service: ubuntu
@@ -29,7 +29,7 @@ services:
 #      - OS="debian"
 #      - VER="latest"
     image: innovanon/poodeb:latest
-    container_name: innovanon/poodeb
+    container_name: poodeb
 #    extends:
 #      file:    debian-latest.yaml
 #      service: debian
@@ -46,7 +46,7 @@ services:
 #      - OS="ubuntu"
 #      - VER="20.04"
     image: innovanon/poobuntu-20.04:latest
-    container_name: innovanon/poobuntu-20.04
+    container_name: poobuntu-20.04
 #    extends:
 #      file:    ubuntu-20.04.yaml
 #      service: ubuntu-20.04
@@ -62,7 +62,7 @@ services:
 #      - OS="debian"
 #      - VER="10"
     image: innovanon/poodeb-10:latest
-    container_name: innovanon/poodeb-10
+    container_name: poodeb-10
 #    extends:
 #      file:    debian-10.yaml
 #      service: debian-10
@@ -79,7 +79,7 @@ services:
 #      - OS="ubuntu"
 #      - VER="18.04"
     image: innovanon/poobuntu-18.04:latest
-    container_name: innovanon/poobuntu-18.04
+    container_name: poobuntu-18.04
 #    extends:
 #      file:    ubuntu-18.04.yaml
 #      service: ubuntu-18.04
@@ -95,7 +95,7 @@ services:
 #      - OS="debian"
 #      - VER="9"
     image: innovanon/poodeb-9:latest
-    container_name: innovanon/poodeb-9
+    container_name: poodeb-9
 #    extends:
 #      file:    debian-9.yaml
 #      service: debian-9
@@ -112,7 +112,7 @@ services:
 #      - OS="ubuntu"
 #      - VER="16.04"
     image: innovanon/poobuntu-16.04:latest
-    container_name: innovanon/poobuntu-16.04
+    container_name: poobuntu-16.04
 #    extends:
 #      file:    ubuntu-16.04.yaml
 #      service: ubuntu-16.04
@@ -128,7 +128,7 @@ services:
 #      - OS="debian"
 #      - VER="8"
     image: innovanon/poodeb-8:latest
-    container_name: innovanon/poodeb-8
+    container_name: poodeb-8
 #    extends:
 #      file:    debian-8.yaml
 #      service: debian-8
