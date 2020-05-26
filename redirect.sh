@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 set -exu
 
 ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
