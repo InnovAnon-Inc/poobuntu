@@ -50,6 +50,11 @@ COPY netselect.awk poobuntu-dpkg.list redirect.sh poobuntu-clean.sh ./
 # TODO is /usr/sbin/policy-rc. supposed to be /usr/sbin/policy-rc.d
 # TODO list debian directory and grab latest version of netselect package
 
+#      pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
+#        netselect.deb          \
+#      MIRRORS='pcurl mirrors.ubuntu.com/mirrors.txt'                                  ; \
+#      MIRRORS='pcurl https://www.debian.org/mirror/list | grep -o '\''http://[^"]*'\' ; \
+
 # Disable Upstart
 RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sfv /bin/true  /sbin/initctl                 \
@@ -61,8 +66,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && curl -o /usr/local/bin/pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/pcurl.sh \
  && chmod -v +x /usr/local/bin/pcurl \
  && if [ -z "`apt-cache search netselect`" ] ; then \
-      pcurl http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
-        netselect.deb          \
+      curl -Lo netselect.deb http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
       && dpkg -i netselect.deb \
       && rm -v netselect.deb ; \
     else                       \
@@ -70,9 +74,9 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
     fi \
  \
  && if   [ "`lsb_release -i | awk '{print tolower($3)}'`" = ubuntu ] ; then            \
-      MIRRORS='pcurl mirrors.ubuntu.com/mirrors.txt'                                  ; \
+      MIRRORS='curl -L mirrors.ubuntu.com/mirrors.txt'                                  ; \
     elif [ "`lsb_release -i | awk '{print tolower($3)}'`" = debian ] ; then            \
-      MIRRORS='pcurl https://www.debian.org/mirror/list | grep -o '\''http://[^"]*'\' ; \
+      MIRRORS='curl -L https://www.debian.org/mirror/list | grep -o '\''http://[^"]*'\' ; \
     else exit 2 ; fi                 \
  && netselect -s 20 -t 40 `$MIRRORS` \
   | awk -f netselect.awk             \
