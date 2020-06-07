@@ -16,7 +16,7 @@ fi
 
 sudo             -- \
 nice -n +20      -- \
-sudo -u `whoami` -- \
+sudo -u "$USER" -- \
 $CMD
 
 $PUSH || :
