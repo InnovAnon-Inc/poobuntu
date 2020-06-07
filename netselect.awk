@@ -1,3 +1,5 @@
+#! /usr/bin/env fawk
+
 BEGIN {
 	print "_APTMGR=apt";
 	print "DOWNLOADBEFORE=true"

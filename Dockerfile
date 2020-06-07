@@ -65,6 +65,8 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && mkdir -pv /usr/local/bin         \
  && curl -o /usr/local/bin/pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/pcurl.sh \
  && chmod -v +x /usr/local/bin/pcurl \
+ && pcurl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/fawk.sh > /usr/local/bin/fawk   \
+ && chmod -v +x /usr/local/bin/fawk  \
  && if [ -z "`apt-cache search netselect`" ] ; then \
       curl -Lo netselect.deb http://ftp.us.debian.org/debian/pool/main/n/netselect/netselect_0.3.ds1-28+b1_`dpkg --print-architecture`.deb \
       && dpkg -i netselect.deb \
@@ -78,7 +80,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
     elif [ "`lsb_release -i | awk '{print tolower($3)}'`" = debian ] ; then            \
       MIRRORS='curl -L https://www.debian.org/mirror/list | grep -o '\''http://[^"]*'\' ; \
     else exit 2 ; fi                 \
- && netselect -s 20 -t 40 `$MIRRORS` \
+ && netselect -s 20 -t 40 `bash -c "$MIRRORS"` \
   | awk -f netselect.awk             \
   | tee /tmp/apt-fast.conf           \
  && rm -v netselect.awk              \
