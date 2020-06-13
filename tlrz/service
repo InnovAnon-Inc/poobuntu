@@ -1,0 +1,3 @@
+tlrz                  27600/tcp                       # tlrz  inetd
+tlrzd                 27601/tcp                       # tlrzd inetd
+

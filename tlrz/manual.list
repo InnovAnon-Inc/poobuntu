@@ -1,0 +1,5 @@
+#! /usr/bin/env apt-list
+inetutils-inetd
+lrzip
+zpaq
+
