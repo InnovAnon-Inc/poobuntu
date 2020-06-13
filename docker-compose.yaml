@@ -1,6 +1,92 @@
 version: '3.3'
-#version: '2.2'
 services:
+  netselect:
+    build:
+      context: .
+      dockerfile:    netselect/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        netselect
+    image: innovanon/netselect:latest
+    #container_name:  netselect
+    ports:
+      - "27400:27400"
+    #links:
+      #- "apt-cacher-ng:apt-cacher-ng"
+    networks:
+      innovanon:
+        aliases:
+          - netselect.innovanon.com
+      netselect:
+        aliases:
+          - netselect.innovanon.com
+
+  cksum:
+    build:
+      context: .
+      dockerfile:    cksum/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        cksum
+    image: innovanon/cksum:latest
+    #container_name:  cksum
+    ports:
+      - "27500:27500"
+    networks:
+      innovanon:
+        aliases:
+          - cksum.innovanon.com
+      cksum:
+        aliases:
+          - cksum.innovanon.com
+
+#  netselect:
+#    restart: always
+#    hostname: netselect
+#    image: innovanon/netselect:latest
+#    container_name: netselect
+#    ports:
+#      - "27400:27400"
+
+  apt-cacher-ng:
+          #extends: acng/docker-compose.yaml
+    build:
+      context: .
+      dockerfile:     acng/Dockerfile
+      args:
+        OS: sameersbn/apt-cacher-ng
+        VER: latest
+    #depends_on:
+    #- netselect
+    restart: always
+    #hostname:         apt-cacher-ng
+    image:  sameersbn/apt-cacher-ng:latest
+    #container_name:   apt-cacher-ng
+    # TODO
+    #init: true
+    ports:
+      - "3142:3142"
+    volumes:
+      - acngvol:/var/cache/apt-cacher-ng:rw
+    #environment:
+      #NETSELECT_HOST: netselect
+    links:
+    - "netselect:netselect"
+    networks:
+      innovanon:
+        aliases:
+          - acng.innovanon.com
+      netselect:
+        aliases:
+          - acng.innovanon.com
+      acng:
+        aliases:
+          - acng.innovanon.com
+
   poobuntu:
     #build: .
     build:
@@ -8,15 +94,32 @@ services:
       args:
         OS:  "ubuntu"
         VER: "latest"
-    hostname: poobuntu
-#    environment:
-#      - OS="ubuntu"
-#      - VER="latest"
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:         poobuntu
+    #environment:
+    #  - MAKEFLAGS="-j`nproc`"
+    #  - CMAKE_BUILD_PARALEL_LEVEL="-j`nproc`"
     image: "innovanon/poobuntu:latest"
-    container_name: "poobuntu"
+    #container_name:  "poobuntu"
 #    extends:
 #      file:    ubuntu-latest.yaml
 #      service: ubuntu
+    #links:
+    #- "apt-cacher-ng:apt-cacher-ng"
+    networks:
+      innovanon:
+        aliases:
+          - poobuntu.innovanon.com
+      acng:
+        aliases:
+          - poobuntu.innovanon.com
+      netselect:
+        aliases:
+          - poobuntu.innovanon.com
 
   poodeb:
     build:
@@ -24,32 +127,62 @@ services:
       args:
         OS:  "debian"
         VER: "latest"
-    hostname: poodeb
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poodeb
 #    environment:
 #      - OS="debian"
 #      - VER="latest"
     image: innovanon/poodeb:latest
-    container_name: poodeb
+    #container_name:  poodeb
 #    extends:
 #      file:    debian-latest.yaml
 #      service: debian
+    networks:
+      innovanon:
+        aliases:
+          - poodeb.innovanon.com
+      acng:
+        aliases:
+          - poodeb.innovanon.com
+      netselect:
+        aliases:
+          - poodeb.innovanon.com
 
-  poobuntu-20.04:
+  poobuntu-2004:
     #build: .
     build:
       context: .
       args:
         OS:  "ubuntu"
         VER: "20.04"
-    hostname: poobuntu-20.04
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poobuntu-2004
 #    environment:
 #      - OS="ubuntu"
 #      - VER="20.04"
     image: innovanon/poobuntu-20.04:latest
-    container_name: poobuntu-20.04
+    #container_name:  poobuntu-2004
 #    extends:
 #      file:    ubuntu-20.04.yaml
 #      service: ubuntu-20.04
+    networks:
+      innovanon:
+        aliases:
+          - poobuntu-2004.innovanon.com
+      acng:
+        aliases:
+          - poobuntu-2004.innovanon.com
+      netselect:
+        aliases:
+          - poobuntu-2004.innovanon.com
 
   poodeb-10:
     build:
@@ -57,32 +190,62 @@ services:
       args:
         OS:  "debian"
         VER: "10"
-    hostname: poodeb-10
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poodeb-10
 #    environment:
 #      - OS="debian"
 #      - VER="10"
     image: innovanon/poodeb-10:latest
-    container_name: poodeb-10
+    #container_name:  poodeb-10
 #    extends:
 #      file:    debian-10.yaml
 #      service: debian-10
+    networks:
+      innovanon:
+        aliases:
+          - poodeb-10.innovanon.com
+      acng:
+        aliases:
+          - poodeb-10.innovanon.com
+      netselect:
+        aliases:
+          - poodeb-10.innovanon.com
 
-  poobuntu-18.04:
+  poobuntu-1804:
     #build: .
     build:
       context: .
       args:
         OS:  "ubuntu"
         VER: "18.04"
-    hostname: poobuntu-18.04
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poobuntu-1804
 #    environment:
 #      - OS="ubuntu"
 #      - VER="18.04"
     image: innovanon/poobuntu-18.04:latest
-    container_name: poobuntu-18.04
+    #container_name:  poobuntu-1804
 #    extends:
 #      file:    ubuntu-18.04.yaml
 #      service: ubuntu-18.04
+    networks:
+      innovanon:
+        aliases:
+          - poobuntu-1804.innovanon.com
+      acng:
+        aliases:
+          - poobuntu-1804.innovanon.com
+      netselect:
+        aliases:
+          - poobuntu-1804.innovanon.com
 
   poodeb-9:
     build:
@@ -90,32 +253,62 @@ services:
       args:
         OS:  "debian"
         VER: "9"
-    hostname: poodeb-9
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poodeb-9
 #    environment:
 #      - OS="debian"
 #      - VER="9"
     image: innovanon/poodeb-9:latest
-    container_name: poodeb-9
+    #container_name:  poodeb-9
 #    extends:
 #      file:    debian-9.yaml
 #      service: debian-9
+    networks:
+      innovanon:
+        aliases:
+          - poodeb-9.innovanon.com
+      acng:
+        aliases:
+          - poodeb-9.innovanon.com
+      netselect:
+        aliases:
+          - poodeb-9.innovanon.com
 
-  poobuntu-16.04:
+  poobuntu-1604:
     #build: .
     build:
       context: .
       args:
         OS:  "ubuntu"
         VER: "16.04"
-    hostname: poobuntu-16.04
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poobuntu-1604
 #    environment:
 #      - OS="ubuntu"
 #      - VER="16.04"
     image: innovanon/poobuntu-16.04:latest
-    container_name: poobuntu-16.04
+    #container_name:  poobuntu-1604
 #    extends:
 #      file:    ubuntu-16.04.yaml
 #      service: ubuntu-16.04
+    networks:
+      innovanon:
+        aliases:
+          - poobuntu-1604.innovanon.com
+      acng:
+        aliases:
+          - poobuntu-1604.innovanon.com
+      netselect:
+        aliases:
+          - poobuntu-1604.innovanon.com
 
   poodeb-8:
     build:
@@ -123,13 +316,39 @@ services:
       args:
         OS:  "debian"
         VER: "8"
-    hostname: poodeb-8
+        #MAKEFLAGS: $MAKEFLAGS
+        #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
+        #TZ: $TZ
+    depends_on:
+      - apt-cacher-ng
+    #hostname:        poodeb-8
 #    environment:
 #      - OS="debian"
 #      - VER="8"
     image: innovanon/poodeb-8:latest
-    container_name: poodeb-8
+    #container_name:  poodeb-8
 #    extends:
 #      file:    debian-8.yaml
 #      service: debian-8
+    networks:
+      innovanon:
+        aliases:
+          - poodeb-8.innovanon.com
+      acng:
+        aliases:
+          - poodeb-8.innovanon.com
+      netselect:
+        aliases:
+          - poodeb-8.innovanon.com
+
+volumes:
+  acngvol:
+
+networks:
+  innovanon:
+  netselect:
+    #external: true
+  acng:
+  cksum:
+  enc:
 

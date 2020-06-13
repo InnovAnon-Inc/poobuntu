@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
-set -exu
+set -euxo pipefail
+
+. `command -v delete.env`
+(( ! $# ))
+
+if (( ! "$D" )) ; then
 
 ! command -v gzip   ||      cp -v   `which gzip`   `which gzip`-old
 ! command -v gunzip ||      cp -v   `which gunzip` `which gunzip`-old
@@ -12,4 +17,13 @@ if command -v bzip2  ; then ln -fsv `which pbzip2` `which bzip2`  ; else ln -sv 
 if command -v xz     ; then ln -fsv `which pixz`   `which xz`     ; else ln -sv `which pixz`   /usr/bin/xz     ; fi
 # TODO unxz
 #ln -fsv `which plzip`  `which lzip`
+
+else
+
+if command -v gzip-old   ; then mv -v `which gzip`{-old,}   ; else rm -v `which gzip`   ; fi
+if command -v gunzip-old ; then mv -v `which gunzip`{-old,} ; else rm -v `which gunzip` ; fi
+if command -v bzip2-old  ; then mv -v `which bzip2`{-old,}  ; else rm -v `which bzip2`  ; fi
+if command -v xz-old     ; then mv -v `which xz`{-old,}     ; else rm -v `which xz`     ; fi
+
+fi
 

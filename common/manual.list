@@ -1,0 +1,6 @@
+#! /usr/bin/env apt-list
+pbzip2
+pigz
+pixz
+plzip
+

@@ -1,8 +1,11 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 echo "------ HOOK START - BUILD -------"
 #printenv
 
+export MAKEFLAGS="-j `nproc`"
+export CMAKE_BUILD_PARALLEL_LEVEL="`nproc`"
+export TZ=UTC
 docker build --build-arg $OS --build-arg $VER -t $IMAGE_NAME .
 
 echo "------ HOOK END - BUILD -------"

@@ -1,0 +1,12 @@
+#! /usr/bin/env apt-list
+
+curl
+lsb-release
+
+dialog
+apt-utils
+software-properties-common
+gnupg
+gnupg-agent
+dirmngr
+
