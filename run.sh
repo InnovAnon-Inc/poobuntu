@@ -30,6 +30,7 @@ docker-compose build # build image
 docker-compose push # push image
 
 #trap "docker stack rm "$(basename "$PWD")"" 0
+docker-compose down || : # wtf
 docker stack rm "$PROJECT" # remove existing containers
 docker stack deploy --compose-file docker-compose.yaml "$PROJECT" # deploy container
 

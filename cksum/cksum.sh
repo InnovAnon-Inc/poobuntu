@@ -38,6 +38,13 @@ case "$mode" in                                                     # protocol #
     T="$(mktemp -d)"                                             # temp work dir
     trap "popd ; rm -rf "$T"" 0                                # cleanup on exit
     pushd "$T"                                                  # enter work dir
+
+    #t="$T/t"
+    #tee "$t" |
+    #tar -tf - |
+    #grep "$cksum"'s\?$' |
+    #xargs -r tar -xf "$t"
+
     tar $V -xf -                                              # untar from stdin
     dirs=()
     for dir in "$cksum"{,s} ; do                 # expected values are in/under,

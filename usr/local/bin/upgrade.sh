@@ -72,7 +72,7 @@ fastest_mirrors () {
 
 fastest_mirrors ubuntu   http://mirrors.ubuntu.com/mirrors.txt
 fastest_mirrors debian   https://www.debian.org/mirror/list
-fastest_mirrors kali     https://http.kali.org/README.mirrorlist
+#fastest_mirrors kali     https://http.kali.org/README.mirrorlist
 #fastest_mirrors savannah https://download.savannah.nongnu.org/mirmon/gnu/
 
 #curl -L http://mirrors.ubuntu.com/mirrors.txt  |
@@ -83,14 +83,11 @@ fastest_mirrors kali     https://http.kali.org/README.mirrorlist
 #nc -N -q 0 "$NETSELECT" 27400                  |
 #tee /opt/mirrors-debian.txt.tmp
 #
-#tee /etc/apt-fast.conf << EOF
-#_APTMGR=apt
-#DOWNLOADBEFORE=true
-#MIRRORS=(
-#  $(/poobuntu/netselect.awk /opt/mirrors-ubuntu.txt)
-#  $(/poobuntu/netselect.awk /opt/mirrors-debian.txt)
-#)
-#EOF
+tee /etc/apt-fast.conf << EOF
+_APTMGR=apt
+DOWNLOADBEFORE=true
+MIRRORS=( $(/acng/netselect.awk /opt/mirrors-ubuntu.txt) $(/acng/netselect.awk /opt/mirrors-debian.txt) )
+EOF
 
 #rm -v /opt/mirrors-{debian,ubuntu}.txt
 

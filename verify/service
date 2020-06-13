@@ -1,2 +1,3 @@
-verify                  27550/tcp                       # verify inetd
+verify                  27550/tcp                       # verify  inetd
+verify0                 27551/tcp                       # verify0 inetd
 

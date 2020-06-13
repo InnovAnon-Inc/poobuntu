@@ -1,2 +1,8 @@
-cksum                   27500/tcp                       # cksum inetd
+cksum                   27500/tcp                       # cksum     inetd
+md5sum                  27501/tcp                       # md5sum    inetd
+sha1sum                 27502/tcp                       # sha1sum   inetd
+sha224sum               27503/tcp                       # sha224sum inetd
+sha256sum               27504/tcp                       # sha256sum inetd
+sha384sum               27505/tcp                       # sha384sum inetd
+sha512sum               27506/tcp                       # sha512sum inetd
 
