@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  netselect:
+    build:
+      context: ..
+      dockerfile:    netselect/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        netselect
+    image: innovanon/netselect:latest
+    #container_name:  netselect
+    ports:
+      - "27400:27400"
+    #links:
+      #- "apt-cacher-ng:apt-cacher-ng"
+    networks:
+#      innovanon:
+#        aliases:
+#          - netselect.innovanon.com
+      netselect:
+        aliases:
+          - netselect.innovanon.com
+
+networks:
+#  innovanon:
+#    external: true
+  netselect:
+    #external: true
+
