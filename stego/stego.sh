@@ -129,7 +129,8 @@ unsteg () {
 SEND='compress | encrypt | stego'
 RECV='unsteg   | decrypt | decompress'
 if (( ! "$L" )) ; then # client mode
-  eval $SEND | "$@" | eval $RECV
+  echo "$SEND | ${args[@]} | $RECV"
+  eval $SEND | "${args[@]}" | eval $RECV
 else
   eval $RECV | "$@" | eval $SEND
   #T="$(mktemp -d)"
