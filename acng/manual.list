@@ -1,0 +1,6 @@
+#! /usr/bin/env apt-list
+ca-certificates
+cron
+curl
+netcat
+

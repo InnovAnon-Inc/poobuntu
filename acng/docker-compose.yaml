@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  apt-cacher-ng:
+          #extends: acng/docker-compose.yaml
+    build:
+      context: ..
+      dockerfile:     acng/Dockerfile
+      args:
+        OS: sameersbn/apt-cacher-ng
+        VER: latest
+    #depends_on:
+    #- netselect
+    restart: always
+    #hostname:         apt-cacher-ng
+    #image:  sameersbn/apt-cacher-ng:latest
+    image:  innovanon/apt-cacher-ng:latest
+    #container_name:   apt-cacher-ng
+    # TODO
+    #init: true
+    ports:
+      - "3142:3142"
+    volumes:
+      - acngvol:/var/cache/apt-cacher-ng:rw
+    #environment:
+      #NETSELECT_HOST: netselect
+#    links:
+#    - "netselect:netselect"
+    networks:
+#      innovanon:
+#        aliases:
+#          - acng.innovanon.com
+#      netselect:
+#        aliases:
+#          - acng.innovanon.com
+      acng:
+        aliases:
+          - acng.innovanon.com
+
+volumes:
+  acngvol:
+
+networks:
+#  innovanon:
+#    external: true
+#  netselect:
+#    external: true
+  acng:
+

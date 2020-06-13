@@ -1,0 +1,7 @@
+
+@reboot         /usr/local/bin/update.sh >> /var/log/cron.log 2>&1
+
+@hourly         /usr/local/bin/update.sh >> /var/log/cron.log 2>&1
+#*/30 * * * * /usr/local/bin/update.sh >> /var/log/cron.log 2>&1
+# This extra line makes it a valid cron
+
