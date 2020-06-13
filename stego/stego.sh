@@ -47,9 +47,9 @@ fi
 if   ((  $#  )) ; then # pipe to an arbitrary command
   args=("$@")
 elif (( "$L" )) ; then # server mode
-  args=(nc -l localhost 9001)
+  args=(nc -l localhost 27700)
 else                   # client mode
-  args=(nc -N localhost 9001)
+  args=(nc -N localhost 27700)
 fi
 
 GPG_FLAGS="${GPG_FLAGS:---compress-level=0 --bzip2-compress-level=0}"
@@ -59,7 +59,7 @@ GPG_FLAGS="${GPG_FLAGS} --quiet"
 
 RETRIES=5 # number of retries for download+stego
 
-[[ "$PEXEL_AUTH" ]]
+[[ "$PEXELS_AUTH" ]]
 
 compress () {
  T="$(mktemp)"                                                      || return $?
