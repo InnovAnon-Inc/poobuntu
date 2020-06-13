@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  cksum:
+    build:
+      context: ..
+      dockerfile:    cksum/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        cksum
+    image: innovanon/cksum:latest
+    #container_name:  cksum
+    ports:
+      - "27500:27500"
+    networks:
+#      innovanon:
+#        aliases:
+#          - cksum.innovanon.com
+      cksum:
+        aliases:
+          - cksum.innovanon.com
+
+networks:
+#  innovanon:
+#    external: true
+  cksum:
+
