@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  verify:
+    build:
+      context: ..
+      dockerfile:    verify/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        verify
+    image: innovanon/verify:latest
+    #container_name:  verify
+    ports:
+      - "27550:27550"
+    networks:
+#      innovanon:
+#        aliases:
+#          - verify.innovanon.com
+      verify:
+        aliases:
+          - verify.innovanon.com
+
+networks:
+#  innovanon:
+#    external: true
+  verify:
+

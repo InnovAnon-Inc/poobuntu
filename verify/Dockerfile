@@ -1,11 +1,12 @@
 # Use the official image as a parent image.
-#ARG OS
-#ARG VER
-FROM debian:latest
-#ARG OS
-#ARG VER
+ARG OS
+ARG VER
+#FROM debian:latest
+FROM $OS:$VER
+ARG OS
+ARG VER
 
-#RUN echo now building ${OS}:${VER} 2>&1
+RUN echo now building ${OS}:${VER} 2>&1
 
 MAINTAINER Innovations Anonymous <InnovAnon-Inc@protonmail.com>
 LABEL version="1.0"                                                     \
@@ -115,7 +116,6 @@ RUN if [ "$TEST" ] ; then \
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 COPY ./verify/verify.sh   \
-     ./verify/verify-2.sh \
       /verify/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 
