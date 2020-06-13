@@ -8,8 +8,8 @@ set -euo pipefail
 #  echo "$line"
 #done |
 
-sort -u               |
-xargs                 \
+#sort -u               |
+xargs -r              \
 netselect -s 20 -t 40 |
-awk '! A[$2] {A[$2]=1 ; print $2}'
+awk '! A[$2] {A[$2]=1 ; print $2}' # remove duplicate entries without changing the order
 

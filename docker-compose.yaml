@@ -1,92 +1,11 @@
 version: '3.3'
 services:
-  netselect:
-    build:
-      context: .
-      dockerfile:    netselect/Dockerfile
-      args:
-        OS:  "debian"
-        VER: "latest"
-    restart: always
-    #hostname:        netselect
-    image: innovanon/netselect:latest
-    #container_name:  netselect
-    ports:
-      - "27400:27400"
-    #links:
-      #- "apt-cacher-ng:apt-cacher-ng"
-    networks:
-      innovanon:
-        aliases:
-          - netselect.innovanon.com
-      netselect:
-        aliases:
-          - netselect.innovanon.com
-
-  cksum:
-    build:
-      context: .
-      dockerfile:    cksum/Dockerfile
-      args:
-        OS:  "debian"
-        VER: "latest"
-    restart: always
-    #hostname:        cksum
-    image: innovanon/cksum:latest
-    #container_name:  cksum
-    ports:
-      - "27500:27500"
-    networks:
-      innovanon:
-        aliases:
-          - cksum.innovanon.com
-      cksum:
-        aliases:
-          - cksum.innovanon.com
-
-#  netselect:
-#    restart: always
-#    hostname: netselect
-#    image: innovanon/netselect:latest
-#    container_name: netselect
-#    ports:
-#      - "27400:27400"
-
-  apt-cacher-ng:
-          #extends: acng/docker-compose.yaml
-    build:
-      context: .
-      dockerfile:     acng/Dockerfile
-      args:
-        OS: sameersbn/apt-cacher-ng
-        VER: latest
-    #depends_on:
-    #- netselect
-    restart: always
-    #hostname:         apt-cacher-ng
-    image:  sameersbn/apt-cacher-ng:latest
-    #container_name:   apt-cacher-ng
-    # TODO
-    #init: true
-    ports:
-      - "3142:3142"
-    volumes:
-      - acngvol:/var/cache/apt-cacher-ng:rw
-    #environment:
-      #NETSELECT_HOST: netselect
-    links:
-    - "netselect:netselect"
-    networks:
-      innovanon:
-        aliases:
-          - acng.innovanon.com
-      netselect:
-        aliases:
-          - acng.innovanon.com
-      acng:
-        aliases:
-          - acng.innovanon.com
-
+#  apt-cacher-ng:
+#    image: innovanon/apt-cacher-ng:latest
+#    networks:
+#      acng:
+#        aliases:
+#          - acng.innovanon.com
   poobuntu:
     #build: .
     build:
@@ -97,8 +16,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:         poobuntu
     #environment:
     #  - MAKEFLAGS="-j`nproc`"
@@ -108,8 +27,8 @@ services:
 #    extends:
 #      file:    ubuntu-latest.yaml
 #      service: ubuntu
-    #links:
-    #- "apt-cacher-ng:apt-cacher-ng"
+#    links:
+#    - "apt-cacher-ng:apt-cacher-ng"
     networks:
       innovanon:
         aliases:
@@ -130,8 +49,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poodeb
 #    environment:
 #      - OS="debian"
@@ -162,8 +81,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poobuntu-2004
 #    environment:
 #      - OS="ubuntu"
@@ -193,8 +112,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poodeb-10
 #    environment:
 #      - OS="debian"
@@ -225,8 +144,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poobuntu-1804
 #    environment:
 #      - OS="ubuntu"
@@ -256,8 +175,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poodeb-9
 #    environment:
 #      - OS="debian"
@@ -288,8 +207,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poobuntu-1604
 #    environment:
 #      - OS="ubuntu"
@@ -319,8 +238,8 @@ services:
         #MAKEFLAGS: $MAKEFLAGS
         #CMAKE_BUILD_PARALLEL_LEVEL: $CMAKE_BUILD_PARALLEL_LEVEL
         #TZ: $TZ
-    depends_on:
-      - apt-cacher-ng
+#    depends_on:
+#      - apt-cacher-ng
     #hostname:        poodeb-8
 #    environment:
 #      - OS="debian"

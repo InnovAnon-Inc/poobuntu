@@ -24,8 +24,8 @@ services:
           - netselect.innovanon.com
 
 networks:
+  netselect:
 #  innovanon:
 #    external: true
-  netselect:
     #external: true
 

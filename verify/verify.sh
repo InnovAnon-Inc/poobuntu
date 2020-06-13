@@ -38,42 +38,39 @@ case "$mode" in
     exit $?
     ;;
   1) # 1 sig file, verify the rest (input is tar)
-    T="$(mktemp)"                               # tar
-    S="$(mktemp)"                               # sig
-    trap "rm -f $T $S" 0
+    T="$(mktemp -d)"
+    trap "rm -rf $T" 0
 
-    cat > "$T"                                  # we need to read the tar twice
-    sig="$(tar -ft "$T" | grep -m 1 '\.sig$')"  # grab the first filename that ends with .sig
-    tar -xf "$T" "$sig" > "$S"                  # extract that file
-    tar --to-command="gpg --verify $S" -xf "$T" # verify the remaining files TODO do we need to skip the sig?
+    F="$T/f"
+    S="$T/s"
+
+    sig="$(tee "$F" | tar -ft - |
+           grep -m 1 '\.sig$')"
+    [[ "$sig" ]]
+    tar -xf "$F" "$sig" > "$S"
+    [[ -s "$S" ]]
+
+    set -f
+    tar --to-command="$(printf -- '%q ' gpg --verify --outfile - "$S" -)" \
+	--exclude="$sig" \
+        -xf "$T"
     exit $?
     ;;
   2) # use %.sig to verify %
-    T="$(mktemp -u)"
-    U="$(mktemp -u)"
-    tar -ft "$T" | sed -n '0,/.sig$/s///p' |
-    trap "rm -f $T $U" 0
-    mkfifo "$T"
-    mkfifo "$U"
-    #tar -ft - | tee "$T" | sed -n 's@.sig$@@ip' > "$U"
-    tee "$U" |
-    tar --sort=name -ft - | \
-    tee "$T" | sed -n 's@.sig$@@ip' | diff --line-format=%= "$T" - |
-    tar -xf .tar %.sig
+    T="$(mktemp)" # list of sigs
+    U="$(mktemp)" # tar
+    D="$(mktemp -d)" # extracted sigs
+    trap "rm -rf $D $T $U" 0
 
+    tee "$U" | # keep the tar for later
+    tar -ft - | # list files in archive
+    sed -n '0,/.sig$/s///p' | # find %.sig
+    tee "$T" # keep % for later
+    sed 's/$/.sig/' | # reappend .sig
+    xargs -r tar -C "$D" -xf # extract %.sig
 
-    comm -12 <() <()
-    tar -xf .tar % --to-command='bash -c "gpg --verify $TARFILENAME.sig -"'
-
-
-
-    tar -xf large_file.tar.gz "full-path/to-the-file/in-the-archive/the-filename-you-want"
-            diff 
-	    # get filename without .sig extension > "$U"
-            # print filenames that have a match in $T: 
-	    # xargs -L 2 gpg --verify
-	    '/.sig$/{file=sub(/.sig$/, "", $0); system("test -f "$file") && printf("%s  %s\n", $file $0)}' |
-    
+    xargs -r tar --to-command='gpg --verify --outfile - '"$D/"'"$TARFILENAME.sig" -' \
+        -xf "$U" < "$T"
     exit $?
     ;;
       

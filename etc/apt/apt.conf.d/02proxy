@@ -1,2 +1,4 @@
-Acquire::http::Proxy "http://localhost:3142";
+#Acquire::http::Proxy "http://localhost:3142";
+Acquire::http::Proxy "http://lmaddox.chickenkiller.com:3142";
+#Acquire::http::Proxy "http://acng.innovanon.com:3142";
 

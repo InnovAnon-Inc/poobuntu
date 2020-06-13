@@ -87,8 +87,8 @@ RUN chmod -v +x /poobuntu/install.sh \
       pcurl.sh
 
 # install required software
-RUN apt update
-RUN apt install              \
+RUN apt update               \
+ && apt install              \
       `/common/manual.list`  \
     `/poobuntu/dpkg.list`    \
     `/poobuntu/dpkg.glob`    \
