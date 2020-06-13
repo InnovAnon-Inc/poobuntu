@@ -23,7 +23,7 @@ services:
           - tlrz.innovanon.com
 
 networks:
+  tlrz:
 #  innovanon:
 #    external: true
-  tlrz:
 
