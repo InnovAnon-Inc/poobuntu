@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  stego:
+    build:
+      context: ..
+      dockerfile:    stego/Dockerfile
+      args:
+        OS:  "debian"
+        VER: "latest"
+    restart: always
+    #hostname:        stego
+    image: innovanon/stego:latest
+    #container_name:  stego
+    ports:
+      - "27700:27700"
+    networks:
+#      innovanon:
+#        aliases:
+#          - stego.innovanon.com
+      stego:
+        aliases:
+          - stego.innovanon.com
+
+networks:
+  stego:
+#  innovanon:
+#    external: true
+
