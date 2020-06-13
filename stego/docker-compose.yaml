@@ -23,6 +23,8 @@ services:
     #environment:
       #- PEXELS_AUTH=${PEXELS_AUTH}
     env_file: env_file
+    volumes:
+      - ./.gnupg:/home/stego/.gnupg:ro
 
 networks:
   stego:

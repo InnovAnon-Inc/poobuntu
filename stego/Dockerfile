@@ -119,7 +119,9 @@ COPY ./stego/stego.sh   \
       /stego/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 
-
+RUN useradd -ms /bin/bash stego
+USER stego
+WORKDIR /home/stego
 
 #RUN systemctl enable inetutils-inetd
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "inetutils-inetd", "--help"]

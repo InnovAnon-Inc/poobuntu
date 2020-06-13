@@ -25,13 +25,12 @@ TEST="${TEST:-}"
 export MAKEFLAGS CMAKE_BUILD_PARALLEL_LEVEL TEST
 
 docker-compose build # build image
-#docker-compose up --build --force-recreate
 
 docker-compose push # push image
 
 #trap "docker stack rm "$(basename "$PWD")"" 0
 docker stack rm "$PROJECT" # remove existing containers
-docker-compose up -d --force-recreate
+#docker-compose up -d --force-recreate
 docker-compose down || : # wtf
 docker stack deploy --compose-file docker-compose.yaml "$PROJECT" # deploy container
 
@@ -39,5 +38,5 @@ docker stack deploy --compose-file docker-compose.yaml "$PROJECT" # deploy conta
   #git pull
   git add .
   git commit -m "auto commit by $0"
-  git push ) || : # hey, it compiles! ...ship it :)
+  git push ) || : # hey, it compiles... ship it! 
 
