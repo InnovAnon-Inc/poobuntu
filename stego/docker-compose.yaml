@@ -20,6 +20,9 @@ services:
       stego:
         aliases:
           - stego.innovanon.com
+    #environment:
+      #- PEXEL_AUTH=${PEXEL_AUTH}
+    env_file: env_file
 
 networks:
   stego:

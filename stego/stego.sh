@@ -59,6 +59,8 @@ GPG_FLAGS="${GPG_FLAGS} --quiet"
 
 RETRIES=5 # number of retries for download+stego
 
+[[ "$PEXEL_AUTH" ]]
+
 compress () {
  T="$(mktemp)"                                                      || return $?
  trap "rm -f $T" 0                                                  || return $?
@@ -90,7 +92,7 @@ stego () {
   [[ -s "$D" ]]                                                     || return $?
   R=0                                                               || return $?
   curl $S -H \
-    "Authorization: 563492ad6f917000010000014c5b0d1b71ed4a288b7a706cc64065ab" \
+    "Authorization: $PEXELS_AUTH" \
     https://api.pexels.com/v1/search?query=cats |
   jq -r '.photos[].src.original' |
   grep -i '\.jpe\?g$' |
