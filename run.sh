@@ -26,7 +26,8 @@ docker-compose build
 
 docker-compose push
 
-trap "docker stack rm "$(basename "$PWD")"" 0
+#trap "docker stack rm "$(basename "$PWD")"" 0
+docker stack rm "$(basename "$PWD")"
 docker stack deploy --compose-file docker-compose.yaml "$(basename "$PWD")"
 
 ( cd ..
