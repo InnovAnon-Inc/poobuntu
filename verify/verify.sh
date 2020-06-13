@@ -47,20 +47,30 @@ case "$mode" in
     D="$(mktemp -d)" # extracted sigs
     trap "rm -rf $D $T $U" 0
 
-    #sed -n '0,/.gpg$/s///p' | # find %.sig
-    tee "$U" | # keep the tar for later
-    tar -tf - | # list files in archive
-    sed -n 's/\.gpg$//ip' | # find %.sig
-    tee "$T" | # keep % for later
-    sed 's/$/\.gpg/' |  # reappend .sig
-    ( cd "$D" && xargs -r tar -xf "$U" --) # extract %.sig
+    ##sed -n '0,/.gpg$/s///p' | # find %.sig
+    #tee "$U" | # keep the tar for later
+    #tar -tf - | # list files in archive
+    #sed -n 's/\.gpg$//ip' | # find %.sig
+    #tee "$T" | # keep % for later
+    #sed 's/$/\.gpg/' |  # reappend .sig
+    #( cd "$D" && xargs -r tar -xf "$U" --) # extract %.sig
+    ( cd "$D" && tar -T <(
+    tee "$U" |
+    tar -tf - |
+    sed -n 's/\.gpg$//ip' |
+    tee "$T" |
+    sed 's/$/\.gpg/') -xf "$U") # extract %.sig
     [[ -s "$U" ]]
     [[ -s "$T" ]]
 
-    xargs -r tar \
+    #xargs -r tar \
+    #  --to-command="$(printf -- '%q ' bash -c \
+    #  "gpg --verify --output - $D/\$TAR_FILENAME.gpg" -)" \
+    #  -xf "$U" < "$T"
+    tar \
       --to-command="$(printf -- '%q ' bash -c \
       "gpg --verify --output - $D/\$TAR_FILENAME.gpg" -)" \
-      -xf "$U" < "$T"
+      -T "$T" -xf "$U"
     exit $?
     ;;
   *) # unsupported protocol
