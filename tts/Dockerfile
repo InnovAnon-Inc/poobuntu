@@ -124,5 +124,6 @@ RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 #RUN systemctl enable inetutils-inetd
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "inetutils-inetd", "--help"]
 #ENTRYPOINT ["/etc/init.d/inetutils-inetd", "start"]
-ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/etc/init.d/inetutils-inetd", "--", "start"]
+COPY ./tts/entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
 

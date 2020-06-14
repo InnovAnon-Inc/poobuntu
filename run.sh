@@ -30,9 +30,15 @@ docker-compose push # push image
 
 #trap "docker stack rm "$(basename "$PWD")"" 0
 docker stack rm "$PROJECT" # remove existing containers
-#docker-compose up -d --force-recreate
-docker-compose down || : # wtf
-docker stack deploy --compose-file docker-compose.yaml "$PROJECT" # deploy container
+
+if (( "${0%%-client.sh}" )) ; then
+  sudo nice -n 20 -- \
+  sudo -u $USER -- \
+  docker-compose up -d --force-recreate
+else
+  docker-compose down || : # wtf
+  docker stack deploy --compose-file docker-compose.yaml "$PROJECT" # deploy container
+fi
 
 ( cd ..
   #git pull

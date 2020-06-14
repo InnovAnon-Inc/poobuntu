@@ -101,9 +101,11 @@ RUN /poobuntu/redirect.sh
 
 # configure apt-fast to use the fastest mirrors
 # update, upgrade
-COPY ./usr/local/bin/upgrade.sh      \
-      /usr/local/bin/
-RUN /usr/local/bin/upgrade.sh
+#COPY ./usr/local/bin/upgrade.sh      \
+#      /usr/local/bin/
+#RUN /usr/local/bin/upgrade.sh
+RUN apt update \
+ && apt full-upgrade
 
 RUN /poobuntu/clean.sh
 
