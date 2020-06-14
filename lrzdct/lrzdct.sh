@@ -27,9 +27,9 @@ if (( ! "$D" )) ; then
   trap "rm -rf $T" 0
   cat > "$T"
   lrzip -n -U -q -f --outfile - -- "$T" |
-  dact -c -f -o -
+  dact -a -c -f -o -
 else
-  dact -d -f -o - |
+  dact -a -d -f -o - |
   lrunzip -f -q --outfile - 2> /dev/null || :
 fi
 
