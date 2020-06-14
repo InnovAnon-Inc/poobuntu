@@ -1,4 +1,4 @@
 # lrzip + dact
-lrzdct                27601/tcp                       # tlrz       inetd
-lrzdctd               27602/tcp                       # tlrzd      inetd
+lrzdct                27602/tcp                       # tlrz       inetd
+lrzdctd               27603/tcp                       # tlrzd      inetd
 
