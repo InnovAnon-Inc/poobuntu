@@ -11,6 +11,8 @@ PROJECT="$(basename "$P")"
 #PARENT="$(dirname "$P")"
 #[[ "$PROJECT" != "$PARENT" ]] # sanity check
 
+if false ; then
+
 command -v docker ||
 curl https://raw.githubusercontent.com/InnovAnon-Inc/repo/master/get-docker.sh | bash
 
@@ -31,7 +33,9 @@ docker-compose push # push image
 #trap "docker stack rm "$(basename "$PWD")"" 0
 docker stack rm "$PROJECT" # remove existing containers
 
-if (( "${0%%-client.sh}" )) ; then
+fi
+
+if (( "${0:%-client.sh}" )) ; then
   sudo nice -n 20 -- \
   sudo -u $USER -- \
   docker-compose up -d --force-recreate
