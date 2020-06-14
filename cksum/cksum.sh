@@ -46,13 +46,15 @@ case "$mode" in                                                     # protocol #
     #xargs -r tar -xf "$t"
 
     tar $V -xf -                                              # untar from stdin
-    dirs=()
-    for dir in "$cksum"{,s} ; do                 # expected values are in/under,
-      [[ ! -e "$dir"  ]] ||                                   # e.g., md5sum{,s}
-      dirs+=("$dir")
-    done
-    (( "${#dirs[@]}" ))  # sanity check: client sent at least one checksum file?
-    find "${dirs[@]}" -type f -exec \
+    #dirs=()
+    #for dir in "$cksum"{,s} ; do                 # expected values are in/under,
+    #  [[ ! -e "$dir"  ]] ||                                   # e.g., md5sum{,s}
+    #  dirs+=("$dir")
+    #done
+    #(( "${#dirs[@]}" ))  # sanity check: client sent at least one checksum file?
+    #find "${dirs[@]}" -type f -exec \
+    # TODO sanitize input
+    find . \( -iname "*.$cksum" -o -ipath "*${cksum}s*" \) -type f -exec \
       "$cksum" -c {} +                # check hashes against the specified files
     exit $?                                       # -io pipefail => exit success
     ;;

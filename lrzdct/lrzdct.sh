@@ -26,8 +26,10 @@ if (( ! "$D" )) ; then
   T="$(mktemp)"
   trap "rm -rf $T" 0
   cat > "$T"
-  lrzip -z -U -q -f --outfile - -- "$T"
+  lrzip -n -U -q -f --outfile - -- "$T" |
+  dact -c
 else
+  dact -d -o |
   lrunzip -f -q --outfile -
 fi
 

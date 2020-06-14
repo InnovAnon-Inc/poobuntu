@@ -25,6 +25,7 @@ services:
     env_file: env_file
     volumes:
       - ./.gnupg:/home/stego/.gnupg:ro
+    #  - ./var/log:/var/log:rw
 
 networks:
   stego:

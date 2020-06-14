@@ -2,5 +2,6 @@
 ca-certificates
 cron
 curl
+inetutils-inetd
 netcat
 

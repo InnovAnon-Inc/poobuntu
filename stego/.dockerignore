@@ -1,2 +1,4 @@
 Dockerfile
+.gnupg
+env_file
 

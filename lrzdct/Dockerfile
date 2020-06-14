@@ -1,10 +1,10 @@
 # Use the official image as a parent image.
 ARG OS
 ARG VER
+#FROM debian:latest
 FROM $OS:$VER
 ARG OS
 ARG VER
-#FROM sameersbn/apt-cacher-ng:latest
 
 RUN echo now building ${OS}:${VER} 2>&1
 
@@ -34,14 +34,10 @@ RUN dpkg-divert --local --rename --add /sbin/initctl \
  && ln -sfv /bin/false /usr/sbin/policy-rc.
 
 # TODO these need to be reset at runtime and at child's build time
-ARG  MAKEFLAGS
-ARG  CMAKE_BUILD_PARALLEL_LEVEL
 ENV  MAKEFLAGS=$MAKEFLAGS
 ENV  CMAKE_BUILD_PARALLEL_LEVEL=$CMAKE_BUILD_PARALLEL_LEVEL
 
 # Copy the file from your host to your current location.
-
-# configs
 COPY ./etc/apt/apt.conf.d/*          \
       /etc/apt/apt.conf.d/
 COPY ./etc/dpkg.cfg.d/*              \
@@ -59,71 +55,51 @@ ENV REPO=$REPO
 ADD $REPO/fawk.sh     /usr/local/bin/fawk
 ADD $REPO/apt-glob.sh /usr/local/bin/apt-glob
 ADD $REPO/apt-list.sh /usr/local/bin/apt-list
-RUN chmod -v +x       /usr/local/bin/fawk     \
-                      /usr/local/bin/apt-glob \
+RUN chmod -v +x       /usr/local/bin/apt-glob   \
                       /usr/local/bin/apt-list
 
-
-# install required software
 COPY ./common/manual.list            \
       /common/
-RUN rm -v /etc/apt/apt.conf.d/02proxy      \
- && apt update                             \
- && apt install                            \
-    $(/common/manual.list)
+
+# for now: to install pkgs
+RUN mv -v /etc/apt/apt.conf.d/02proxy \
+                         /tmp/02proxy \
+ && apt update                        \
+ && apt install                       \
+       $(/common/manual.list)
 
 # poo
 ADD $REPO/delete.env  /usr/local/bin/
-COPY ./poobuntu/redirect.sh                \
-      /poobuntu/
+COPY      ./poobuntu/redirect.sh                \
+           /poobuntu/
 RUN chmod -v +x       /usr/local/bin/delete.env \
- &&   /poobuntu/redirect.sh                \
- && rm -v /poobuntu/redirect.sh
+ &&        /poobuntu/redirect.sh                \
+ && rm -v  /poobuntu/redirect.sh
 
 # specific deps
-COPY   ./acng/manual.list            \
-       ./acng/dpkg.list              \
-       ./acng/dpkg.glob              \
-        /acng/
-RUN apt install                            \
-      $(/acng/manual.list)                 \
-      $(/acng/dpkg.list)                   \
-      $(/acng/dpkg.glob)
+COPY ./lrzdct/manual.list         \
+      /lrzdct/
+RUN apt install                       \
+    $(/lrzdct/manual.list)
 
-# install apt-fast
-RUN add-apt-repository ppa:apt-fast/stable \
-      --update                             \
- && apt install apt-fast                   \
- && echo apt-fast >> /acng/manual.list
-
-COPY        ./acng/scheduler.txt /
-#USER signal-user
-RUN crontab /scheduler.txt
-#USER root
-RUN rm -v   /scheduler.txt
-
-# configure apt-fast to use the fastest mirrors
-# update, upgrade
-COPY ./usr/local/bin/upgrade.sh      \
-      /usr/local/bin/
-COPY ./acng/netselect.awk            \
-      /acng/
-#RUN   /usr/local/bin/upgrade.sh
+# upgrade and start using proxy
+RUN apt full-upgrade                  \ 
+ && mv -v                /tmp/02proxy \
+          /etc/apt/apt.conf.d/02proxy
 
 # configure server
-COPY     ./acng/inetd.conf /etc/inetd.d/
-COPY     ./acng/service    /tmp/service
+COPY     ./lrzdct/inetd.conf /etc/inetd.d/
+COPY     ./lrzdct/service    /tmp/service
 RUN      cat                    /tmp/service  \
                              >> /etc/services \
  &&      rm -v                  /tmp/service
  #&& chattr +i /etc/inetd.d/inetd.conf
 
 # minimize
-# TODO
-#COPY ./poobuntu/clean.sh             \
-#      /poobuntu/
-#RUN   /poobuntu/clean.sh
- 
+COPY ./poobuntu/clean.sh            \
+      /poobuntu/
+RUN   /poobuntu/clean.sh
+
 COPY ./poobuntu/test.sh \
       /poobuntu/
 RUN if [ "$TEST" ] ; then \
@@ -131,5 +107,23 @@ RUN if [ "$TEST" ] ; then \
    || exit $? ; fi        \
  && rm -v /poobuntu/test.sh
 
-COPY ./acng/entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+#RUN touch /var/run/rinetd.pid \
+# && chown -v nobody:nogroup   \
+#          /var/run/rinetd.pid
+
+# start server
+# TODO periodically check mirrors
+#ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
+#ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
+COPY ./tlrz/tlrz.sh   \
+COPY ./lrzdct/lrzdct.sh   \
+      /lrzdct/
+RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
+
+
+
+#RUN systemctl enable inetutils-inetd
+#ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "inetutils-inetd", "--help"]
+#ENTRYPOINT ["/etc/init.d/inetutils-inetd", "start"]
+ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/etc/init.d/inetutils-inetd", "--", "start"]
+

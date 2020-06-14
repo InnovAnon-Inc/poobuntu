@@ -21,6 +21,9 @@ fi
 NETSELECT="${NETSELECT:-lmaddox.chickenkiller.com}"
 #NETSELECT="${NETSELECT:-$NETSELECT_HOST}"
 
+#NCF="${NCF:--N}"
+NCF="${NCF:--w 3}"
+
 mirrors_ubuntu () {
   cat
   return $?
@@ -61,7 +64,7 @@ fastest_mirrors () {
   [[ -f "/opt/fastest-mirrors-$1.txt" ]] ||
   touch "/opt/fastest-mirrors-$1.txt" || return $?
 
-  nc -N -q 0 "$NETSELECT" 27400 < "/opt/mirrors-$1.txt" |
+  nc $NCF "$NETSELECT" 27400 < "/opt/mirrors-$1.txt" |
   tee "/opt/fastest-mirrors-$1.tmp" || return $? # "logging"
 
   [[ -s "/opt/fastest-mirrors-$1.tmp" ]] ||
@@ -76,11 +79,11 @@ fastest_mirrors debian   https://www.debian.org/mirror/list
 #fastest_mirrors savannah https://download.savannah.nongnu.org/mirmon/gnu/
 
 #curl -L http://mirrors.ubuntu.com/mirrors.txt  |
-#nc -N -q 0 "$NETSELECT" 27400                  |
+#nc $NCF "$NETSELECT" 27400                  |
 #tee /opt/mirrors-ubuntu.txt.tmp
 #curl -L
 #|
-#nc -N -q 0 "$NETSELECT" 27400                  |
+#nc $NCF "$NETSELECT" 27400                  |
 #tee /opt/mirrors-debian.txt.tmp
 #
 tee /etc/apt-fast.conf << EOF

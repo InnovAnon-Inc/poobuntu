@@ -1,3 +1,4 @@
 #! /usr/bin/env apt-list
+gnupg
 inetutils-inetd
 

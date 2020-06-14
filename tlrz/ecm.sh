@@ -22,12 +22,17 @@ shift $((OPTIND-1))
 (( ! "$X" )) ||
 set -x
 
+I="$(mktemp)"
+O="$(mktemp)"
+trap "rm -rf $I $O" 0
+
 if (( ! "$D" )) ; then
-  T="$(mktemp)"
-  trap "rm -rf $T" 0
-  cat > "$T"
-  lrzip -z -U -q -f --outfile - -- "$T"
+  cat > "$I"
+  ecm-compress   "$I" "$O" > /dev/null
+  /tlrz/tlrz.sh < "$I"
 else
-  lrunzip -f -q --outfile -
+  /tlrz/tlrz.sh -d > "$I"
+  ecm-uncompress "$I" "$O" > /dev/null
+  cat "$O"
 fi
 
