@@ -1,5 +1,6 @@
 #! /usr/bin/env apt-list
 ecm
 inetutils-inetd
+lrzip
 p7zip-rar
 

@@ -115,7 +115,8 @@ RUN if [ "$TEST" ] ; then \
 # TODO periodically check mirrors
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
-COPY ./lrzpoo/lrzpoo.sh   \
+COPY ./lrzpoo/ecm.sh   \
+     ./lrzpoo/lr7z.sh  \
       /lrzpoo/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 

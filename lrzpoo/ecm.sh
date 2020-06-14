@@ -29,9 +29,11 @@ trap "rm -rf $I $O" 0
 if (( ! "$D" )) ; then
   cat > "$I"
   ecm-compress   "$I" "$O" > /dev/null
-  /tlrz/tlrz.sh < "$I"
+  lrzip -n -U -q -f --outfile - -- "$O" |
+  7z c -bd -si -so -y -ssw -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on
 else
-  /tlrz/tlrz.sh -d > "$I"
+  7z x -bd -si -so -y |
+  lrunzip -f -q --outfile "$I" 2> /dev/null || :
   ecm-uncompress "$I" "$O" > /dev/null
   cat "$O"
 fi
