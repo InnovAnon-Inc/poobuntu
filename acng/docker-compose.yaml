@@ -19,6 +19,7 @@ services:
     #init: true
     ports:
       - "3142:3142"
+      - "2413:2413"
     volumes:
       - acngvol:/var/cache/apt-cacher-ng:rw
     #environment:
