@@ -1,7 +1,7 @@
 # extreme
 # lrzip + zpaq
 tlrz                  27600/tcp                       # tlrz       inetd
-tlrzd                 27601/tcp                       # tlrzd      inetdA
+tlrzd                 27601/tcp                       # tlrzd      inetd
 # lrzip + dact
 #lrzdct                27602/tcp                       # tlrz       inetd
 #lrzdct                27603/tcp                       # tlrzd      inetd

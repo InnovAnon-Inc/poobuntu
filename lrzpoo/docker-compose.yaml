@@ -1,29 +1,31 @@
 version: '3.3'
 services:
-  tlrz:
+  lrzpoo:
     build:
       context: ..
-      dockerfile:    tlrz/Dockerfile
+      dockerfile:    lrzpoo/Dockerfile
       args:
-        OS:  "debian"
+        OS:  "ubuntu"
         VER: "latest"
     restart: always
-    #hostname:        tlrz
-    image: innovanon/tlrz:latest
-    #container_name:  tlrz
+    #hostname:        lrzpoo
+    image: innovanon/lrzpoo:latest
+    #container_name:  lrzpoo
     ports:
-      - "27600:27600"
-      - "27601:27601"
+      - "27617:27617"
+      - "27618:27618"
+      - "27623:27623"
+      - "27624:27624"
     networks:
 #      innovanon:
 #        aliases:
-#          - tlrz.innovanon.com
-      tlrz:
+#          - lrzpoo.innovanon.com
+      lrzpoo:
         aliases:
-          - tlrz.innovanon.com
+          - lrzpoo.innovanon.com
 
 networks:
-  tlrz:
+  lrzpoo:
 #  innovanon:
 #    external: true
 

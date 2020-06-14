@@ -1,53 +1,8 @@
-# extreme
-# lrzip + zpaq
-tlrz                  27600/tcp                       # tlrz       inetd
-tlrzd                 27601/tcp                       # tlrzd      inetdA
-# lrzip + dact
-#lrzdct                27601/tcp                       # tlrz       inetd
-#lrzdct                27602/tcp                       # tlrzd      inetd
-
-# parallel
-# pixz
-xz                    27603/tcp                       # xz         inetd
-unxz                  27604/tcp                       # unxz       inetd
-# pbzip2
-bzip2                 27605/tcp                       # bzip2      inetd
-bunzip2               27606/tcp                       # bunzip2    inetd
-# pigz
-gzip                  27607/tcp                       # lzip       inetd
-gunzip                27608/tcp                       # gunzip     inetd
-#compress              27609/tcp                       # compress   inetd
-#decompress            27610/tcp                       # decompress inetd
-
-# standard
-#
-lzma                  27611/tcp                       # lzma       inetd
-lzmad                 27612/tcp                       # unlzma     inetd
-#
-lzip                  27613/tcp                       # lzip       inetd
-lzipd                 27614/tcp                       # unlzip     inetd
-#
-lzop                  27615/tcp                       # lzop       inetd
-lzopd                 27616/tcp                       # unlzop     inetd
-
 # windows
 # 7zip
-#7zc                   27617/tcp                       # 7z c       inetd
-#7zx                   27618/tcp                       # 7z x       inetd
-# rar
-rar                   27619/tcp                       # rar        inetd
-unrar                 27620/tcp                       # unrar      inetd
-# zip
-zip                   27621/tcp                       # zip        inetd
-unzip                 27622/tcp                       # unzip      inetd
+7zc                   27617/tcp                       # 7z c       inetd
+7zx                   27618/tcp                       # 7z x       inetd
 
-#ecm                   27623/tcp                       # ecm        inetd
-#unecm                 27624/tcp                       # unecm      inetd
-
-# TODO
-#lepton
-#webp
-#wzip
-#shrinksafe
-#yui-compressor
+ecm                   27623/tcp                       # ecm        inetd
+unecm                 27624/tcp                       # unecm      inetd
 

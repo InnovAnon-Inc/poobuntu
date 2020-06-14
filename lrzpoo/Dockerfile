@@ -77,10 +77,10 @@ RUN chmod -v +x       /usr/local/bin/delete.env \
  && rm -v  /poobuntu/redirect.sh
 
 # specific deps
-COPY ./tlrz/manual.list         \
-      /tlrz/
+COPY ./lrzpoo/manual.list         \
+      /lrzpoo/
 RUN apt install                       \
-    $(/tlrz/manual.list)
+    $(/lrzpoo/manual.list)
 
 # upgrade and start using proxy
 RUN apt full-upgrade                  \ 
@@ -88,8 +88,8 @@ RUN apt full-upgrade                  \
           /etc/apt/apt.conf.d/02proxy
 
 # configure server
-COPY     ./tlrz/inetd.conf /etc/inetd.d/
-COPY     ./tlrz/service    /tmp/service
+COPY     ./lrzpoo/inetd.conf /etc/inetd.d/
+COPY     ./lrzpoo/service    /tmp/service
 RUN      cat                    /tmp/service  \
                              >> /etc/services \
  &&      rm -v                  /tmp/service
@@ -115,8 +115,8 @@ RUN if [ "$TEST" ] ; then \
 # TODO periodically check mirrors
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
-COPY ./tlrz/tlrz.sh   \
-      /tlrz/
+COPY ./lrzpoo/lrzpoo.sh   \
+      /lrzpoo/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 
 

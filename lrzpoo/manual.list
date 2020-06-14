@@ -1,8 +1,5 @@
 #! /usr/bin/env apt-list
+ecm
 inetutils-inetd
-lzip
-lzop
-lrzip
-zip
-zpaq
+p7zip-rar
 
