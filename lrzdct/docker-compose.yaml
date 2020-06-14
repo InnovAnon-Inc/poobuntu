@@ -12,8 +12,8 @@ services:
     image: innovanon/lrzdct:latest
     #container_name:  lrzdct
     ports:
-      - "27601:27601"
       - "27602:27602"
+      - "27603:27603"
     networks:
 #      innovanon:
 #        aliases:
