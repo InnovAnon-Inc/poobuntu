@@ -35,7 +35,7 @@ docker stack rm "$PROJECT" # remove existing containers
 
 fi
 
-if (( "${0%%*-client.sh}" )) ; then
+if [[ "${0%%*-client.sh}" ]] ; then
   sudo nice -n 20 -- \
   sudo -u $USER -- \
   docker-compose up -d --force-recreate
