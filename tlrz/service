@@ -3,46 +3,46 @@
 tlrz                  27600/tcp                       # tlrz       inetd
 tlrzd                 27601/tcp                       # tlrzd      inetdA
 # lrzip + dact
-#lrzdct                27601/tcp                       # tlrz       inetd
-#lrzdct                27602/tcp                       # tlrzd      inetd
+#lrzdct                27602/tcp                       # tlrz       inetd
+#lrzdct                27603/tcp                       # tlrzd      inetd
 
 # parallel
 # pixz
-xz                    27603/tcp                       # xz         inetd
-unxz                  27604/tcp                       # unxz       inetd
+xz                    27604/tcp                       # xz         inetd
+unxz                  27605/tcp                       # unxz       inetd
 # pbzip2
-bzip2                 27605/tcp                       # bzip2      inetd
-bunzip2               27606/tcp                       # bunzip2    inetd
+bzip2                 27606/tcp                       # bzip2      inetd
+bunzip2               27607/tcp                       # bunzip2    inetd
 # pigz
-gzip                  27607/tcp                       # lzip       inetd
-gunzip                27608/tcp                       # gunzip     inetd
+gzip                  27608/tcp                       # lzip       inetd
+gunzip                27609/tcp                       # gunzip     inetd
 #compress              27609/tcp                       # compress   inetd
 #decompress            27610/tcp                       # decompress inetd
 
 # standard
 #
-lzma                  27611/tcp                       # lzma       inetd
-lzmad                 27612/tcp                       # unlzma     inetd
+lzma                  27610/tcp                       # lzma       inetd
+lzmad                 27611/tcp                       # unlzma     inetd
 #
-lzip                  27613/tcp                       # lzip       inetd
-lzipd                 27614/tcp                       # unlzip     inetd
+lzip                  27612/tcp                       # lzip       inetd
+lzipd                 27613/tcp                       # unlzip     inetd
 #
-lzop                  27615/tcp                       # lzop       inetd
-lzopd                 27616/tcp                       # unlzop     inetd
+lzop                  27614/tcp                       # lzop       inetd
+lzopd                 27615/tcp                       # unlzop     inetd
 
 # windows
 # 7zip
-#7zc                   27617/tcp                       # 7z c       inetd
-#7zx                   27618/tcp                       # 7z x       inetd
+#7zc                   27616/tcp                       # 7z c       inetd
+#7zx                   27617/tcp                       # 7z x       inetd
 # rar
-rar                   27619/tcp                       # rar        inetd
-unrar                 27620/tcp                       # unrar      inetd
+rar                   27618/tcp                       # rar        inetd
+unrar                 27619/tcp                       # unrar      inetd
 # zip
-zip                   27621/tcp                       # zip        inetd
-unzip                 27622/tcp                       # unzip      inetd
+zip                   27620/tcp                       # zip        inetd
+unzip                 27621/tcp                       # unzip      inetd
 
-#ecm                   27623/tcp                       # ecm        inetd
-#unecm                 27624/tcp                       # unecm      inetd
+#ecm                   27622/tcp                       # ecm        inetd
+#unecm                 27623/tcp                       # unecm      inetd
 
 # TODO
 #lepton

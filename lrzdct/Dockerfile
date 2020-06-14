@@ -95,6 +95,12 @@ RUN      cat                    /tmp/service  \
  &&      rm -v                  /tmp/service
  #&& chattr +i /etc/inetd.d/inetd.conf
 
+COPY        ./lrzdct/scheduler.txt /
+#USER signal-user
+RUN crontab /scheduler.txt
+#USER root
+RUN rm -v   /scheduler.txt
+
 # minimize
 COPY ./poobuntu/clean.sh            \
       /poobuntu/
@@ -115,7 +121,6 @@ RUN if [ "$TEST" ] ; then \
 # TODO periodically check mirrors
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
-COPY ./tlrz/tlrz.sh   \
 COPY ./lrzdct/lrzdct.sh   \
       /lrzdct/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
@@ -125,5 +130,6 @@ RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 #RUN systemctl enable inetutils-inetd
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "inetutils-inetd", "--help"]
 #ENTRYPOINT ["/etc/init.d/inetutils-inetd", "start"]
-ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/etc/init.d/inetutils-inetd", "--", "start"]
+COPY ./lrzdct/entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
 

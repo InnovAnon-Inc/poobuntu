@@ -36,29 +36,29 @@ fi
 NCF="${NCF:--w 3}"
 
 test1 () { # unit test
-  ./tlrz.sh < "$TESTFILE" |
-  ./tlrz.sh -d > "$T"
+  ./lrzdct.sh < "$TESTFILE" |
+  ./lrzdct.sh -d > "$T"
   return $?
 }
 
 test2 () { # test client
   nc $NCF localhost 27600 < "$TESTFILE" |
-  ./tlrz.sh -d > "$T"
+  ./lrzdct.sh -d > "$T"
   return $?
 }
 
 test3 () { # test server
-  ./tlrz.sh < "$TESTFILE" |
+  ./lrzdct.sh < "$TESTFILE" |
   nc $NCF localhost 27601 |
   PORT=27601 netkitty \
-    ./tlrz.sh -d > "$T"
+    ./lrzdct.sh -d > "$T"
   return $?
 }
 
 test4 () { # full test
   nc $NCF localhost 27600 < "$TESTFILE" |
   PORT=27601 netkitty \
-    ./tlrz.sh -d > "$T"
+    ./lrzdct.sh -d > "$T"
   return $?
 }
 
