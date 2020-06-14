@@ -12,12 +12,12 @@ services:
     image: innovanon/lrzpoo:latest
     #container_name:  lrzpoo
     ports:
+      - "27616:27616"
       - "27617:27617"
-      - "27618:27618"
+      - "27622:27622"
       - "27623:27623"
       - "27624:27624"
       - "27625:27625"
-      - "27626:27626"
     networks:
 #      innovanon:
 #        aliases:

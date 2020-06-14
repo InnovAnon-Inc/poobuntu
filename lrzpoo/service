@@ -1,12 +1,12 @@
 # windows
 # 7zip
-7zc                   27617/tcp                       # 7z c       inetd
-7zx                   27618/tcp                       # 7z x       inetd
+7zc                   27616/tcp                       # 7z c       inetd
+7zx                   27617/tcp                       # 7z x       inetd
 
 # isos
-ecm                   27623/tcp                       # ecm        inetd
-unecm                 27624/tcp                       # unecm      inetd
+ecm                   27622/tcp                       # ecm        inetd
+unecm                 27623/tcp                       # unecm      inetd
 
-lr7z                  27625/tcp                       # lrzip+7z   inetd
-lr7zd                 27626/tcp                       # lrzip+7z   inetd
+lr7z                  27624/tcp                       # lrzip+7z   inetd
+lr7zd                 27625/tcp                       # lrzip+7z   inetd
 
