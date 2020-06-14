@@ -20,6 +20,9 @@ services:
       tts:
         aliases:
           - tts.innovanon.com
+    devices:
+      - "/dev/snd"
+    privileged: true
 
 networks:
   tts:
