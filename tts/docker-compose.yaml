@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  tts:
+    build:
+      context: ..
+      dockerfile:    tts/Dockerfile
+      args:
+        OS:  "ubuntu"
+        VER: "latest"
+    restart: always
+    #hostname:        tts
+    image: innovanon/tts:latest
+    #container_name:  tts
+    ports:
+      - "28000:28000"
+    networks:
+#      innovanon:
+#        aliases:
+#          - tts.innovanon.com
+      tts:
+        aliases:
+          - tts.innovanon.com
+
+networks:
+  tts:
+#  innovanon:
+#    external: true
+

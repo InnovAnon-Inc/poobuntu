@@ -1,9 +1,5 @@
 #! /usr/bin/env apt-list
+espeak
 inetutils-inetd
-lzip
-lzop
-lrzip
-upx-ucl
-zip
-zpaq
+mbrola-us1
 

@@ -40,6 +40,10 @@ services:
       # zip
       - "27620:27620"
       - "27621:27621"
+      # upx
+      - "27626:27626"
+      # strip
+      - "27627:27627"
     networks:
 #      innovanon:
 #        aliases:

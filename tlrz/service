@@ -44,6 +44,9 @@ unzip                 27621/tcp                       # unzip      inetd
 #ecm                   27622/tcp                       # ecm        inetd
 #unecm                 27623/tcp                       # unecm      inetd
 
+upx                   27626/tcp                       # strip+upx   inetd
+strip                 27627/tcp                       # strip(libs) inetd
+
 # TODO
 #lepton
 #webp

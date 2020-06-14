@@ -77,10 +77,10 @@ RUN chmod -v +x       /usr/local/bin/delete.env \
  && rm -v  /poobuntu/redirect.sh
 
 # specific deps
-COPY ./tlrz/manual.list         \
-      /tlrz/
+COPY ./tts/manual.list         \
+      /tts/
 RUN apt install                       \
-    $(/tlrz/manual.list)
+    $(/tts/manual.list)
 
 # upgrade and start using proxy
 RUN apt full-upgrade                  \ 
@@ -88,8 +88,8 @@ RUN apt full-upgrade                  \
           /etc/apt/apt.conf.d/02proxy
 
 # configure server
-COPY     ./tlrz/inetd.conf /etc/inetd.d/
-COPY     ./tlrz/service    /tmp/service
+COPY     ./tts/inetd.conf /etc/inetd.d/
+COPY     ./tts/service    /tmp/service
 RUN      cat                    /tmp/service  \
                              >> /etc/services \
  &&      rm -v                  /tmp/service
@@ -115,10 +115,8 @@ RUN if [ "$TEST" ] ; then \
 # TODO periodically check mirrors
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--chuid", "nobody:nogroup", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
 #ENTRYPOINT ["/usr/bin/env", "start-stop-daemon", "--start", "--exec", "/usr/bin/env", "--", "rinetd", "--conf-file", "/etc/inetd.conf", "--foreground"]
-COPY ./tlrz/tlrz.sh   \
-     ./tlrz/upx.sh    \
-     ./tlrz/strip.sh  \
-      /tlrz/
+#COPY ./tts/tts.sh   \
+#      /tts/
 RUN echo INETD_OPTS=--debug >> /etc/default/inetutils-inetd
 
 

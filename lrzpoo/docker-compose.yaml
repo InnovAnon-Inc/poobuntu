@@ -6,7 +6,7 @@ services:
       dockerfile:    lrzpoo/Dockerfile
       args:
         OS:  "ubuntu"
-        VER: "latest"
+        VER: "18.04"
     restart: always
     #hostname:        lrzpoo
     image: innovanon/lrzpoo:latest
