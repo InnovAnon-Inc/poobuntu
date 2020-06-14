@@ -21,8 +21,8 @@ fi
 NETSELECT="${NETSELECT:-lmaddox.chickenkiller.com}"
 #NETSELECT="${NETSELECT:-$NETSELECT_HOST}"
 
-#NCF="${NCF:--N}"
-NCF="${NCF:--w 3}"
+NCF="${NCF:--N}"
+#NCF="${NCF:--w 3}"
 
 mirrors_ubuntu () {
   cat
