@@ -1,6 +1,8 @@
 acng     		3142/tcp			# apt-cacher-ng
 acng-hc     		2413/tcp			# apt-cacher-ng healthcheck
 acng-hc     		2413/udp			# apt-cacher-ng healthcheck
+acng-hc2    		2412/tcp			# apt-cacher-ng healthcheck
+acng-hc2    		2412/udp			# apt-cacher-ng healthcheck
 
 netselect               27400/tcp
 
